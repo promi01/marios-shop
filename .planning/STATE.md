@@ -1,3 +1,16 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: Roadmap created, awaiting `/gsd-plan-phase 1`
+last_updated: "2026-05-10T16:01:47.615Z"
+progress:
+  total_phases: 4
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+---
+
 # State: Marios Shop
 
 **Last updated:** 2026-05-10
@@ -67,6 +80,7 @@
 **Last action:** Roadmap created with 4 phases (Vertical MVP structure), 65/65 requirements mapped.
 
 **Files of record:**
+
 - `.planning/PROJECT.md` — vision, constraints, decisions
 - `.planning/REQUIREMENTS.md` — 65 v1 requirements with phase traceability
 - `.planning/ROADMAP.md` — 4 phases with success criteria
