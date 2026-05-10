@@ -124,13 +124,83 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (Populated by roadmapper) | | |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| INV-01 | Phase 1 | Pending |
+| INV-02 | Phase 1 | Pending |
+| INV-03 | Phase 2 | Pending |
+| INV-04 | Phase 2 | Pending |
+| INV-05 | Phase 1 | Pending |
+| CAT-01 | Phase 1 | Pending |
+| CAT-02 | Phase 1 | Pending |
+| CAT-03 | Phase 1 | Pending |
+| CAT-04 | Phase 2 | Pending |
+| CAT-05 | Phase 2 | Pending |
+| CAT-06 | Phase 2 | Pending |
+| CAT-07 | Phase 2 | Pending |
+| CAT-08 | Phase 2 | Pending |
+| CAT-09 | Phase 1 | Pending |
+| PROD-01 | Phase 1 | Pending |
+| PROD-02 | Phase 1 | Pending |
+| PROD-03 | Phase 1 | Pending |
+| PROD-04 | Phase 1 | Pending |
+| PROD-05 | Phase 2 | Pending |
+| PROD-06 | Phase 2 | Pending |
+| PROD-07 | Phase 2 | Pending |
+| PROD-08 | Phase 1 | Pending |
+| PROD-09 | Phase 2 | Pending |
+| CART-01 | Phase 1 | Pending |
+| CART-02 | Phase 1 | Pending |
+| CART-03 | Phase 1 | Pending |
+| CART-04 | Phase 2 | Pending |
+| CART-05 | Phase 1 | Pending |
+| CART-06 | Phase 1 | Pending |
+| CART-07 | Phase 2 | Pending |
+| CART-08 | Phase 1 | Pending |
+| CART-09 | Phase 1 | Pending |
+| CART-10 | Phase 2 | Pending |
+| CART-11 | Phase 1 | Pending |
+| CART-12 | Phase 2 | Pending |
+| COPY-01 | Phase 1 | Pending |
+| COPY-02 | Phase 1 | Pending |
+| COPY-03 | Phase 1 | Pending |
+| COPY-04 | Phase 2 | Pending |
+| COPY-05 | Phase 1 | Pending |
+| COPY-06 | Phase 1 | Pending |
+| COPY-07 | Phase 2 | Pending |
+| COPY-08 | Phase 1 | Pending |
+| UI-01 | Phase 3 | Pending |
+| UI-02 | Phase 3 | Pending |
+| UI-03 | Phase 3 | Pending |
+| UI-04 | Phase 3 | Pending |
+| UI-05 | Phase 3 | Pending |
+| UI-06 | Phase 1 | Pending |
+| UI-07 | Phase 1 | Pending |
+| UI-08 | Phase 3 | Pending |
+| UI-09 | Phase 3 | Pending |
+| ANL-01 | Phase 4 | Pending |
+| ANL-02 | Phase 4 | Pending |
+| ANL-03 | Phase 4 | Pending |
+| ANL-04 | Phase 4 | Pending |
+| ANL-05 | Phase 4 | Pending |
+| DEP-01 | Phase 1 | Pending |
+| DEP-02 | Phase 1 | Pending |
+| DEP-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 53 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 53 ⚠️
+- v1 requirements: 65 total
+- Mapped to phases: 65 (100%)
+- Unmapped: 0
+
+**By phase:**
+- Phase 1 (Vertical MVP — Browse, Cart, Copy, Deploy): 35 requirements
+- Phase 2 (Inventory Robustness & Discovery): 17 requirements
+- Phase 3 (UI Polish, Accessibility & Visual System): 7 requirements
+- Phase 4 (Analytics & Deploy Hardening): 6 requirements
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-10 after initial definition*
+*Last updated: 2026-05-10 after roadmap traceability mapping*
