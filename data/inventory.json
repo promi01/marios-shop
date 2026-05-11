@@ -5,11 +5,68 @@
     "name": "Tobacco Vanille",
     "line": "Private Blend",
     "image": null,
-    "image_fallback_url": "https://www.tomford.com/dw/image/v2/AAWB_PRD/on/demandware.static/-/Sites-master-tomford/default/dw0e2e8c1c/images/T0R-01_main.jpg",
-    "notes": "tobacco, vanilla, spice",
-    "description_gr": "Ζεστό αρωματικό προφίλ καπνού και βανίλιας — εμβληματικό άρωμα της Private Blend συλλογής.",
+    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.1825.jpg",
+    "notes": "καπνός, βανίλια, καρυκεύματα, κακάο, στεγνά φρούτα",
+    "description_gr": "Ζεστό oriental προφίλ με καπνό και βανίλια — εμβληματικό άρωμα της Private Blend συλλογής.\nΜοιάζει με χειμωνιάτικη βραδιά κοντά στο τζάκι.",
     "variants": [
-      { "id": "tvf-50-sealed", "type": "sealed", "size_ml": 50, "price": 180, "stock": 3 }
+      { "id": "tvf-50-sealed", "type": "sealed", "size_ml": 50, "price": 180, "stock": 3 },
+      { "id": "tvf-10-decant", "type": "decant", "size_ml": 10, "price": 38, "stock": 6 }
+    ]
+  },
+  {
+    "id": "loewe-bittersweet-oud",
+    "brand": "Loewe",
+    "name": "Bittersweet Oud",
+    "line": null,
+    "image": null,
+    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.7129.jpg",
+    "notes": "ξύλα, oud, μπαχαρικά, κέδρος",
+    "description_gr": "Ξύλινο-oriental προφίλ με oud, μπαχαρικά και ζεστά ξύλα. Διακριτικό αλλά με χαρακτήρα.",
+    "variants": [
+      { "id": "bso-100-opened", "type": "opened", "size_ml": 100, "price": 95, "stock": 1, "fill_pct": 85 },
+      { "id": "bso-5-decant", "type": "decant", "size_ml": 5, "price": 18, "stock": 8 }
+    ]
+  },
+  {
+    "id": "creed-aventus",
+    "brand": "Creed",
+    "name": "Aventus",
+    "line": null,
+    "image": null,
+    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.9828.jpg",
+    "notes": "ανανάς, κάσσι, σημύδα, μοσχοκάρυδο, βανίλια",
+    "description_gr": "Φρουτώδες-καπνιστό άρωμα-σημαία. Επιβλητικό αλλά πολυφορεμένο.",
+    "variants": [
+      { "id": "av-100-sealed", "type": "sealed", "size_ml": 100, "price": 320, "stock": 0 },
+      { "id": "av-10-decant", "type": "decant", "size_ml": 10, "price": 55, "stock": 4 }
+    ]
+  },
+  {
+    "id": "mfk-baccarat-rouge-540",
+    "brand": "Maison Francis Kurkdjian",
+    "name": "Baccarat Rouge 540",
+    "line": null,
+    "image": null,
+    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.33519.jpg",
+    "notes": "σαφράν, jasmine, ambergris, cedar",
+    "description_gr": "Διάφανο amber-φλοράλ προφίλ με γλυκό σαφράν.\nΑναγνωρίσιμο sillage, sweet and warm.",
+    "variants": [
+      { "id": "br540-70-sealed", "type": "sealed", "size_ml": 70, "price": 280, "stock": 2 },
+      { "id": "br540-5-decant", "type": "decant", "size_ml": 5, "price": 32, "stock": 10 }
+    ]
+  },
+  {
+    "id": "nishane-hacivat",
+    "brand": "Nishane",
+    "name": "Hacivat",
+    "line": "Extrait de Parfum",
+    "image": null,
+    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.42440.jpg",
+    "notes": "ανανάς, βάλσαμο περού, πατσουλί, σανταλόξυλο",
+    "description_gr": "Φρουτώδες-ξύλινο niche, εναλλακτική του Aventus με δικό του χαρακτήρα.",
+    "variants": [
+      { "id": "hac-50-sealed", "type": "sealed", "size_ml": 50, "price": 145, "stock": 4 },
+      { "id": "hac-10-decant", "type": "decant", "size_ml": 10, "price": 32, "stock": 7 }
     ]
   }
 ]
