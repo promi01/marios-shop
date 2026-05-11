@@ -3,19 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-05-11T11:38:22Z"
+stopped_at: Completed 01-06-PLAN.md
+last_updated: "2026-05-11T14:47:18Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
-  completed_plans: 5
-  percent: 71
+  completed_plans: 6
+  percent: 86
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11 (Plan 01-05 complete)
+**Last updated:** 2026-05-11 (Plan 01-06 complete)
 
 ## Project Reference
 
@@ -28,16 +28,16 @@ progress:
 ## Current Position
 
 Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
+Plan: 7 of 7 (Plans 01–06 complete, ready for Plan 07 — Full seed inventory + Vercel deploy)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-05 Cart Drawer — COMPLETE
+- **Plan:** 01-06 Copy-to-Messenger — COMPLETE
 - **Status:** Executing Phase 1
-- **Progress:** [███████░░░] 71%
+- **Progress:** [████████░░] 86%
 
 ```
-[#---] 0/4 phases complete (Phase 1: 5/7 plans)
+[#---] 0/4 phases complete (Phase 1: 6/7 plans)
 ```
 
 ## Performance Metrics
@@ -46,7 +46,7 @@ Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
 |--------|-------|
 | Phases planned | 4 |
 | Phases complete | 0 |
-| Plans complete | 5 |
+| Plans complete | 6 |
 | v1 requirements | 65 |
 | v1 requirements mapped | 65 |
 | Coverage | 100% |
@@ -69,6 +69,10 @@ Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
 | Plan 01-05 tasks completed | 2 |
 | Plan 01-05 files created | 3 |
 | Plan 01-05 files modified | 1 |
+| Plan 01-06 duration (seconds) | 249 |
+| Plan 01-06 tasks completed | 2 |
+| Plan 01-06 files created | 5 |
+| Plan 01-06 files modified | 3 |
 
 ## Accumulated Context
 
@@ -84,11 +88,24 @@ Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
 
 ### Open todos
 
-- Execute Plan 06 (Copy-to-Messenger): build tested `formatOrderText` pure function + `copyToClipboard` (navigator.clipboard primary path + textarea fallback per D-24) + `<CopyToMessengerButton />` that REPLACES the disabled placeholder slot (`data-slot="copy-cta-placeholder"`) in `components/cart-drawer.tsx` footer, with Sonner success/error toasts (`Αντιγράφηκε!` / `Δεν αντιγράφηκε — δοκιμάστε ξανά`).
+- Execute Plan 07 (Full seed inventory + Vercel production deploy): expand `data/inventory.json` to 5 products covering sealed/opened/decant variants + `stock=0` case + `fill_pct` on an opened variant per CONTEXT D-01/D-02 (Tom Ford, Loewe, Creed, MFK, Nishane); deploy to Vercel with `output: 'export'` (D-23). Checkpoint expected for Vercel auth.
 
 ### Blockers
 
 (none)
+
+### Decisions logged from Plan 01-06
+
+- `formatOrderText(items: ResolvedItem[]): string` is the pure-function core (lib/copy-format.ts). Takes a fully-resolved input shape (brand/name/typeLabel/size_ml/price/quantity — NO `fill_pct` per D-25) so unit tests run deterministically in `environment: 'node'` without inventory I/O. The button component owns inventory lookups + Greek-label localization (`formatTypeLabel`).
+- 5 vitest unit tests cover: UI-SPEC two-item example byte-equality / singular `1 τεμάχιο` pluralization / decimal price `17.50€` formatting / no `fill_pct` ("Γέμιση") leak for opened type / empty list returns `""`. All pass on first GREEN-phase implementation.
+- TDD plan-level red→green cycle implemented as separate commits: `f8a7ec9 test(01-06)` lands vitest setup + failing tests; `9d15826 feat(01-06)` lands the implementation that makes them green; `b15b0b3 feat(01-06)` is the integration step that wires the proven formatter into the UI surface. REFACTOR step skipped — GREEN was already clean.
+- Vitest installed as devDep with minimal config (`vitest.config.ts`): `@/*` alias matching tsconfig paths, `environment: 'node'` (no jsdom — pure function tests only), `include: ['lib/**/*.test.ts']`. New scripts: `test` (vitest run, single-pass) and `test:watch` (vitest watch mode).
+- `lib/clipboard.ts → copyToClipboard(text): Promise<boolean>` implements both clipboard paths per CONTEXT D-24: primary `navigator.clipboard.writeText` (modern browsers, secure context), fallback off-screen `<textarea>` + `document.execCommand('copy')` (older browsers, non-secure contexts). Try/finally guarantees DOM cleanup. Module-level `'use client'` directive future-proofs against accidental Server Component imports.
+- Toast wording is IDENTICAL for both clipboard paths per D-24 — `toast.success('Αντιγράφηκε!')` on success regardless of which path won, `toast.error('Δεν αντιγράφηκε — δοκιμάστε ξανά')` on failure. The caller does not discriminate.
+- `<CopyToMessengerButton />` (components/copy-to-messenger-button.tsx) subscribes to `useCartStore.items` + `useCartStore.isHydrated`. `disabled={!isHydrated || items.length === 0}` per COPY-08 + D-07 — same hydration-safe pattern as Plan 04's sticky badge and Plan 05's drawer empty state. Defensive resolution filter `.filter((x): x is ResolvedItem => x !== null)` plus a pre-toast `resolved.length === 0` guard handle the (extreme) race where every persisted item points to a deleted product.
+- Plan 05's `<Button data-slot="copy-cta-placeholder">` is REMOVED ENTIRELY from `components/cart-drawer.tsx`, replaced with `<CopyToMessengerButton />` (extract option from Plan 05's documented choices — not the in-place rewire option). The shadcn `<Button>` import is dropped from cart-drawer.tsx because the placeholder was the only use. The new component carries its own `data-slot="copy-cta"` attribute (no longer 'placeholder') for any future locators.
+- Per CONTEXT D-25 the `ResolvedItem` interface intentionally OMITS `fill_pct`. TypeScript-level enforcement complements Test 4's runtime contract. Per CONTEXT D-26 prices use `formatPrice` (suffix euro, no space) for all four numeric slots (unit, subtotal, total). Per UI-SPEC §Currency Format decimals only appear when non-integer (`180€` for 180, `17.50€` for 17.5).
+- COPY-07 (toast wording with source attribution) is mapped to Phase 2 per ROADMAP Coverage Map. The current toasts (`Αντιγράφηκε!` / `Δεν αντιγράφηκε — δοκιμάστε ξανά`) match UI-SPEC §Copywriting Contract for Phase 1; Phase 2 will add source-discriminating variations.
 
 ### Decisions logged from Plan 01-05
 
@@ -152,13 +169,13 @@ Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-06 (Copy-to-Messenger): build tested `lib/copy-format.ts → formatOrderText(items)` pure function producing the locked Greek order-text format (UI-SPEC §Copy-to-Messenger Format — header `Παραγγελία — Marios Shop`, indexed items with `{TypeLabelGr} {size}ml — {price}€ × {qty} = {subtotal}€`, footer `Σύνολο: {total}€ — {N} τεμάχια`); `lib/copy-clipboard.ts → copyToClipboard(text)` with `navigator.clipboard.writeText` primary + textarea fallback (D-24); `<CopyToMessengerButton />` component that REPLACES the disabled placeholder slot (`data-slot="copy-cta-placeholder"`) in `components/cart-drawer.tsx` footer, gated `disabled={items.length === 0}` per COPY-08; Sonner toasts `Αντιγράφηκε!` (success) / `Δεν αντιγράφηκε — δοκιμάστε ξανά` (error). Preserves the locked label `📋 Αντιγραφή για Messenger` (UI-04 single-emoji rule).
+**Next action:** Execute Plan 01-07 (Full seed inventory + Vercel deploy): expand `data/inventory.json` from the locked 1-product seed (`tom-ford-tobacco-vanille` / `tvf-50-sealed`) to 5 products per CONTEXT D-01/D-02 — Tom Ford, Loewe, Creed, MFK, Nishane — covering at least 3 brands, a mix of `sealed`/`opened`/`decant` variants, at least one variant with `stock = 0` (test the "Εξαντλήθηκε" path), and at least one `opened` variant with `fill_pct` (even though Phase 1 doesn't render fill_pct in UI per PROD-07 deferral). Verify `generateStaticParams()` still emits all product pages, then deploy to Vercel with `output: 'export'` (D-23). Vercel auth checkpoint expected.
 
-**Last action:** Completed Plan 01-05 Cart Drawer — created `components/cart-drawer-empty.tsx` (lone ShoppingBag + Greek heading/body per UI-SPEC §8d), `components/cart-drawer-item.tsx` (56×56 thumbnail, brand/name/variant row with `<VariantBadge />` + size + qty×price, subtotal, 44×44 Trash2 remove with `Αφαίρεση {brand} {name}` aria-label calling `useCartStore.removeItem`), `components/cart-drawer.tsx` (right-side `<Sheet>` at `w-[85vw] sm:w-[420px]`, header `Καλάθι`, scrollable item list or empty state gated by `!isHydrated || resolved.length === 0`, footer with `Σύνολο`/formatItemCount/total € and a disabled `data-slot="copy-cta-placeholder"` button labeled `📋 Αντιγραφή για Messenger`). Display fields resolved fresh from inventory per render (CONTEXT D-06). Mounted `<CartDrawer />` globally in `app/layout.tsx` after `<StickyCartButton />` (z-40), before `<Toaster />`. `npm run build` exits 0; all 17 grep gates pass; `npx tsc --noEmit` reports zero errors.
+**Last action:** Completed Plan 01-06 Copy-to-Messenger — created `lib/copy-format.ts → formatOrderText(items)` pure function producing the UI-SPEC §Copy-to-Messenger Format text (`Παραγγελία — Marios Shop` header + numbered items with `{brand} — {name}` first line and 3-space indented `{TypeLabelGr} {size_ml}ml — {price}€ × {qty} = {subtotal}€` second line, blank lines between items, `Σύνολο: {total}€ — {N} τεμάχια` footer). Created `lib/copy-format.test.ts` with 5 vitest tests proving the format contract (UI-SPEC two-item example byte-match, singular pluralization, decimal prices, no fill_pct leak, empty list — all pass). Created `lib/clipboard.ts → copyToClipboard(text): Promise<boolean>` with `navigator.clipboard.writeText` primary + off-screen textarea fallback per D-24. Created `components/copy-to-messenger-button.tsx` — client component reading cart from `useCartStore`, resolving inventory + Greek labels via `formatTypeLabel` (D-25), calling `formatOrderText` then `copyToClipboard`, firing `toast.success('Αντιγράφηκε!')` / `toast.error('Δεν αντιγράφηκε — δοκιμάστε ξανά')`. Replaced Plan 05's `<Button data-slot="copy-cta-placeholder">` in `components/cart-drawer.tsx` footer with `<CopyToMessengerButton />`; dropped the unused `<Button>` import. Installed vitest as devDep + `test` / `test:watch` scripts + `vitest.config.ts` (`@/*` alias, node env, lib/**/*.test.ts include). TDD plan-level cycle implemented as two commits — `test(01-06)` for the RED gate (failing tests), `feat(01-06)` for the GREEN gate (implementation makes them pass). `npm test` exits 0 (5/5 tests pass); `npm run build` exits 0 (5 static pages export cleanly); `npx tsc --noEmit` reports zero errors; all 18 grep gates pass. Phase 1's user-visible vertical is now complete end-to-end: browse → product → add → drawer → copy → paste.
 
-**Last session:** 2026-05-11T11:38:22Z
-**Stopped at:** Completed 01-05-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-06-PLAN.md` (next plan to execute)
+**Last session:** 2026-05-11T14:47:18Z
+**Stopped at:** Completed 01-06-PLAN.md
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-PLAN.md` (next plan to execute)
 
 **Files of record:**
 

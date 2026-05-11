@@ -62,14 +62,14 @@
 
 ### Copy to Messenger
 
-- [ ] **COPY-01**: Μεγάλο primary κουμπί στο cart drawer: "📋 Αντιγραφή για Messenger"
-- [ ] **COPY-02**: Παράγει formatted text σύμφωνα με το spec template (header, numbered items με bullet variants, total footer)
-- [ ] **COPY-03**: Format ανά item: `{brand} — {name}` και `{Type localized} {size_ml}ml — {price}€ × {qty} = {subtotal}€`
+- [x] **COPY-01**: Μεγάλο primary κουμπί στο cart drawer: "📋 Αντιγραφή για Messenger" *(Plan 01-06 — <CopyToMessengerButton /> in drawer footer)*
+- [x] **COPY-02**: Παράγει formatted text σύμφωνα με το spec template (header, numbered items με bullet variants, total footer) *(Plan 01-06 — formatOrderText with 5 vitest tests proving exact UI-SPEC format)*
+- [x] **COPY-03**: Format ανά item: `{brand} — {name}` και `{Type localized} {size_ml}ml — {price}€ × {qty} = {subtotal}€` *(Plan 01-06 — emitted by formatOrderText with Greek labels per D-25)*
 - [ ] **COPY-04**: Type localization: sealed → "Sealed", opened → "Opened", decant → "Decant" (ή "Σφραγισμένο"/"Ανοιγμένο"/"Decant" — final wording in implementation)
-- [ ] **COPY-05**: Footer εμφανίζει σύνολο € και σύνολο τεμαχίων
-- [ ] **COPY-06**: Πραγματικό clipboard write με `navigator.clipboard.writeText()` και graceful fallback (textarea trick) για παλιότερα browsers
+- [x] **COPY-05**: Footer εμφανίζει σύνολο € και σύνολο τεμαχίων *(Plan 01-06 — `Σύνολο: {total}€ — {N} τεμάχια` via formatPrice + formatItemCount, singular form covered by test)*
+- [x] **COPY-06**: Πραγματικό clipboard write με `navigator.clipboard.writeText()` και graceful fallback (textarea trick) για παλιότερα browsers *(Plan 01-06 — lib/clipboard.ts implements both paths per D-24)*
 - [ ] **COPY-07**: Toast "Αντιγράφηκε!" μετά από επιτυχία· error toast αν αποτύχει
-- [ ] **COPY-08**: Empty cart: το κουμπί είναι disabled
+- [x] **COPY-08**: Empty cart: το κουμπί είναι disabled *(Plan 01-06 — `disabled={!isHydrated || items.length === 0}`)*
 
 ### UI / Visual System
 
@@ -164,14 +164,14 @@
 | CART-10 | Phase 2 | Pending |
 | CART-11 | Phase 1 | Complete (Plan 01-04) |
 | CART-12 | Phase 2 | Pending |
-| COPY-01 | Phase 1 | Pending |
-| COPY-02 | Phase 1 | Pending |
-| COPY-03 | Phase 1 | Pending |
+| COPY-01 | Phase 1 | Complete (Plan 01-06) |
+| COPY-02 | Phase 1 | Complete (Plan 01-06) |
+| COPY-03 | Phase 1 | Complete (Plan 01-06) |
 | COPY-04 | Phase 2 | Pending |
-| COPY-05 | Phase 1 | Pending |
-| COPY-06 | Phase 1 | Pending |
+| COPY-05 | Phase 1 | Complete (Plan 01-06) |
+| COPY-06 | Phase 1 | Complete (Plan 01-06) |
 | COPY-07 | Phase 2 | Pending |
-| COPY-08 | Phase 1 | Pending |
+| COPY-08 | Phase 1 | Complete (Plan 01-06) |
 | UI-01 | Phase 3 | Pending |
 | UI-02 | Phase 3 | Pending |
 | UI-03 | Phase 3 | Pending |
