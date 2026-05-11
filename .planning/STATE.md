@@ -3,19 +3,20 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-06-PLAN.md
-last_updated: "2026-05-11T14:47:18Z"
+stopped_at: Plan 01-07 Task 1 complete — Task 2 (Vercel deploy) DEFERRED to owner action
+last_updated: "2026-05-11T14:55:00Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
   completed_plans: 6
-  percent: 86
+  partial_plans: 1
+  percent: 93
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11 (Plan 01-06 complete)
+**Last updated:** 2026-05-11 (Plan 01-07 Task 1 complete; Task 2 deferred to owner)
 
 ## Project Reference
 
@@ -27,17 +28,17 @@ progress:
 
 ## Current Position
 
-Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 7 of 7 (Plans 01–06 complete, ready for Plan 07 — Full seed inventory + Vercel deploy)
+Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING (awaiting owner Vercel deploy)
+Plan: 7 of 7 — Task 1 done (`eb274cc` seed expansion), Task 2 DEFERRED to owner (Vercel auth required)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-06 Copy-to-Messenger — COMPLETE
-- **Status:** Executing Phase 1
-- **Progress:** [████████░░] 86%
+- **Plan:** 01-07 Task 1 — COMPLETE (seed inventory 5 products); Task 2 — DEFERRED (Vercel production deploy)
+- **Status:** Executing Phase 1 — code is production-ready, awaiting owner Vercel CLI/dashboard auth
+- **Progress:** [█████████░] 93% (6.5/7 plans in Phase 1)
 
 ```
-[#---] 0/4 phases complete (Phase 1: 6/7 plans)
+[#---] 0/4 phases complete (Phase 1: 6.5/7 plans — Plan 07 Task 2 awaiting owner)
 ```
 
 ## Performance Metrics
@@ -73,6 +74,11 @@ Plan: 7 of 7 (Plans 01–06 complete, ready for Plan 07 — Full seed inventory 
 | Plan 01-06 tasks completed | 2 |
 | Plan 01-06 files created | 5 |
 | Plan 01-06 files modified | 3 |
+| Plan 01-07 duration (seconds) | 75 |
+| Plan 01-07 tasks completed | 1 |
+| Plan 01-07 tasks deferred | 1 |
+| Plan 01-07 files created | 1 |
+| Plan 01-07 files modified | 1 |
 
 ## Accumulated Context
 
@@ -88,11 +94,20 @@ Plan: 7 of 7 (Plans 01–06 complete, ready for Plan 07 — Full seed inventory 
 
 ### Open todos
 
-- Execute Plan 07 (Full seed inventory + Vercel production deploy): expand `data/inventory.json` to 5 products covering sealed/opened/decant variants + `stock=0` case + `fill_pct` on an opened variant per CONTEXT D-01/D-02 (Tom Ford, Loewe, Creed, MFK, Nishane); deploy to Vercel with `output: 'export'` (D-23). Checkpoint expected for Vercel auth.
+- **Owner-only:** Complete Plan 07 Task 2 — Vercel production deploy. Two paths documented in `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-SUMMARY.md` §`Task 2 — DEFERRED (Owner Action Required)`. Path A: `npm install -g vercel && vercel login && vercel link && vercel --prod` (then connect Git via Vercel dashboard Settings → Git for DEP-01). Path B: push to a GitHub repo + import via https://vercel.com/new (handles DEP-01 implicitly). After Task 2 completes, mark FOUND-05 + DEP-01 complete in REQUIREMENTS.md and update this STATE.md to flip Phase 1 to Complete.
 
 ### Blockers
 
-(none)
+- **Plan 07 Task 2 awaiting owner Vercel auth** (`checkpoint:human-action`). Codebase is production-ready (`npm run build` exits 0; `out/` contains static HTML for all 5 products). Only the Vercel CLI login / dashboard linking is blocked — these require browser-based OAuth against the owner's Vercel + Git provider accounts. Claude cannot perform this step. See `01-07-SUMMARY.md` for exact steps.
+
+### Decisions logged from Plan 01-07
+
+- Plan 07 Task 1 replaced the Walking-Skeleton's 1-product `data/inventory.json` with the full Phase 1 seed: 5 products from 5 distinct brands (Tom Ford `tom-ford-tobacco-vanille`, Loewe `loewe-bittersweet-oud`, Creed `creed-aventus`, MFK `mfk-baccarat-rouge-540`, Nishane `nishane-hacivat`) covering all D-01/D-02 surface — sealed (4) + opened (1) + decant (5) variants; exactly one `stock=0` (Creed `av-100-sealed` exercises the `Εξαντλήθηκε` stub); exactly one `opened` with `fill_pct` (Loewe `bso-100-opened`, fill_pct=85); image_fallback_url uses fragrantica HTTPS URLs per D-03.
+- Loewe canonical naming locked across UI-SPEC §Copy-to-Messenger Format example, Plan 06's `lib/copy-format.test.ts` fixture (`brand: 'Loewe', name: 'Bittersweet Oud'`), and `data/inventory.json` seed. Grep verifies `Esencia Loewe` returns 0 (incorrect alternative name absent).
+- `npm test` passes 5/5 against the expanded seed in 270ms — Plan 06's test file uses synthetic ResolvedItem fixtures (no import of `data/inventory.json`), so seed changes are test-isolated. `npm run build` exits 0; `out/product/{id}.html` exists for all 5 ids; bundle `/product/[id]` route 2.31 kB → 3.06 kB.
+- Plan 07 Task 2 (Vercel production deploy) is DEFERRED to owner action per `type="checkpoint:human-action"` semantics. `vercel login` requires browser-based OAuth that Claude cannot perform. Codebase is production-ready right now — only the Vercel project link + deploy is blocked. Two completion paths documented in 01-07-SUMMARY.md (Path A: Vercel CLI; Path B: GitHub + Vercel dashboard import). FOUND-05 + DEP-01 stay Pending until owner completes Task 2.
+- Only `INV-05` was marked complete in REQUIREMENTS.md for this partial-completion run. Marking FOUND-05 + DEP-01 complete before the production URL is live would be incorrect — the deploy hasn't happened yet, only the code is deploy-ready.
+- Atomic single-file commit `eb274cc` carries the entire seed expansion. Clean diff: 1 file changed, 61 insertions, 4 deletions. No collateral code changes — Plans 01–06 absorb the new seed without modification.
 
 ### Decisions logged from Plan 01-06
 
@@ -169,13 +184,18 @@ Plan: 7 of 7 (Plans 01–06 complete, ready for Plan 07 — Full seed inventory 
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-07 (Full seed inventory + Vercel deploy): expand `data/inventory.json` from the locked 1-product seed (`tom-ford-tobacco-vanille` / `tvf-50-sealed`) to 5 products per CONTEXT D-01/D-02 — Tom Ford, Loewe, Creed, MFK, Nishane — covering at least 3 brands, a mix of `sealed`/`opened`/`decant` variants, at least one variant with `stock = 0` (test the "Εξαντλήθηκε" path), and at least one `opened` variant with `fill_pct` (even though Phase 1 doesn't render fill_pct in UI per PROD-07 deferral). Verify `generateStaticParams()` still emits all product pages, then deploy to Vercel with `output: 'export'` (D-23). Vercel auth checkpoint expected.
+**Next action (OWNER):** Complete Plan 07 Task 2 — Vercel production deploy. Pick one path:
+  - **Path A (CLI):** `npm install -g vercel && vercel login && vercel link && vercel --prod` (from `C:/Users/user/Desktop/CLAUDE CODE/marios shop`); then dashboard Settings → Git → connect repo for DEP-01 auto-deploys.
+  - **Path B (Dashboard):** Create empty GitHub repo `marios-shop`; `git remote add origin … && git push -u origin main`; import via https://vercel.com/new (auto-deploys from main once linked).
+  After deploy: paste production URL into `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-SUMMARY.md`, run full smoke test (browse → add → drawer → copy → paste) against live URL, then mark FOUND-05 + DEP-01 complete in REQUIREMENTS.md and flip Phase 1 to Complete in this STATE.md.
 
-**Last action:** Completed Plan 01-06 Copy-to-Messenger — created `lib/copy-format.ts → formatOrderText(items)` pure function producing the UI-SPEC §Copy-to-Messenger Format text (`Παραγγελία — Marios Shop` header + numbered items with `{brand} — {name}` first line and 3-space indented `{TypeLabelGr} {size_ml}ml — {price}€ × {qty} = {subtotal}€` second line, blank lines between items, `Σύνολο: {total}€ — {N} τεμάχια` footer). Created `lib/copy-format.test.ts` with 5 vitest tests proving the format contract (UI-SPEC two-item example byte-match, singular pluralization, decimal prices, no fill_pct leak, empty list — all pass). Created `lib/clipboard.ts → copyToClipboard(text): Promise<boolean>` with `navigator.clipboard.writeText` primary + off-screen textarea fallback per D-24. Created `components/copy-to-messenger-button.tsx` — client component reading cart from `useCartStore`, resolving inventory + Greek labels via `formatTypeLabel` (D-25), calling `formatOrderText` then `copyToClipboard`, firing `toast.success('Αντιγράφηκε!')` / `toast.error('Δεν αντιγράφηκε — δοκιμάστε ξανά')`. Replaced Plan 05's `<Button data-slot="copy-cta-placeholder">` in `components/cart-drawer.tsx` footer with `<CopyToMessengerButton />`; dropped the unused `<Button>` import. Installed vitest as devDep + `test` / `test:watch` scripts + `vitest.config.ts` (`@/*` alias, node env, lib/**/*.test.ts include). TDD plan-level cycle implemented as two commits — `test(01-06)` for the RED gate (failing tests), `feat(01-06)` for the GREEN gate (implementation makes them pass). `npm test` exits 0 (5/5 tests pass); `npm run build` exits 0 (5 static pages export cleanly); `npx tsc --noEmit` reports zero errors; all 18 grep gates pass. Phase 1's user-visible vertical is now complete end-to-end: browse → product → add → drawer → copy → paste.
+**Next action (CLAUDE) after owner deploy:** Run `/gsd-execute-phase 2` to start Phase 2 (Inventory Robustness & Discovery — INV-03, INV-04, CAT-04..08, PROD-05..07, PROD-09, CART-04, CART-07, CART-10, CART-12, COPY-04, COPY-07).
 
-**Last session:** 2026-05-11T14:47:18Z
-**Stopped at:** Completed 01-06-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-PLAN.md` (next plan to execute)
+**Last action:** Completed Plan 01-07 Task 1 — Full seed inventory. Replaced `data/inventory.json` from the 1-product Walking-Skeleton seed (`tom-ford-tobacco-vanille` / `tvf-50-sealed` only) with the full Phase 1 catalog: 5 products from 5 distinct brands (Tom Ford `tom-ford-tobacco-vanille`, Loewe `loewe-bittersweet-oud`, Creed `creed-aventus`, MFK `mfk-baccarat-rouge-540`, Nishane `nishane-hacivat`) and 10 variants total covering all CONTEXT D-01/D-02/D-03 requirements (sealed × 4, opened × 1 with fill_pct=85 on Loewe, decant × 5, stock=0 on Creed `av-100-sealed`, image_fallback_url HTTPS for all 5 per D-03 with `image: null`). Loewe canonical naming locked (matches UI-SPEC §Copy-to-Messenger Format example + Plan 06 `lib/copy-format.test.ts` fixture). `npm test` exits 0 (5/5 vitest tests still pass against expanded seed — synthetic fixtures, no inventory import); `npm run build` exits 0 (9 static pages export cleanly, `out/product/{id}.html` for all 5 ids); 17 grep gates all pass (incl. `Εξαντλήθηκε` in `out/product/creed-aventus.html`, `Bittersweet Oud` in `out/product/loewe-bittersweet-oud.html`, `Tom Ford` + `Nishane` in `out/index.html`, `Esencia Loewe` count=0 in `data/inventory.json`). Atomic single-file commit `eb274cc` carries the entire diff (1 file, 61 insertions, 4 deletions). Plan 07 Task 2 (Vercel production deploy) DEFERRED to owner action — `vercel login` requires browser-based OAuth that Claude cannot perform. Two completion paths documented in 01-07-SUMMARY.md. INV-05 marked complete; FOUND-05 + DEP-01 stay Pending until owner completes Task 2.
+
+**Last session:** 2026-05-11T14:55:00Z
+**Stopped at:** Plan 01-07 Task 1 complete (`eb274cc`); Task 2 DEFERRED to owner (Vercel production deploy — auth required)
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-SUMMARY.md` (owner reads §Task 2 — DEFERRED (Owner Action Required) for exact deploy steps)
 
 **Files of record:**
 

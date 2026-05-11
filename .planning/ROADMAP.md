@@ -49,7 +49,7 @@ Plans:
 - [x] 01-06-PLAN.md — Copy-to-Messenger: tested formatOrderText pure function + copyToClipboard (navigator.clipboard + textarea fallback) + CopyToMessengerButton + drawer wiring + Sonner success/error toasts *(completed 2026-05-11)*
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 01-07-PLAN.md — Full seed inventory (5 products: Tom Ford, Loewe, Creed, MFK, Nishane covering all variant types + stock=0 + fill_pct) + Vercel production deploy (checkpoint for auth)
+- [~] 01-07-PLAN.md — Full seed inventory (5 products: Tom Ford, Loewe, Creed, MFK, Nishane covering all variant types + stock=0 + fill_pct) + Vercel production deploy (checkpoint for auth) *(Task 1 completed 2026-05-11 — `eb274cc`; Task 2 DEFERRED to owner — Vercel auth required, see 01-07-SUMMARY.md)*
 **UI hint:** yes
 
 ### Phase 2: Inventory Robustness & Discovery
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 6/7 | In progress | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 6.5/7 | In progress (Plan 07 Task 1 done; Task 2 deferred to owner) | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |
@@ -114,4 +114,4 @@ Plans:
 Coverage: 65/65 v1 requirements mapped, 0 orphans, 0 duplicates.
 
 ---
-*Last updated: 2026-05-11 after Plan 01-06 Copy-to-Messenger completed (6/7 plans in Phase 1).*
+*Last updated: 2026-05-11 after Plan 01-07 Task 1 (seed expansion) completed. Plan 07 Task 2 (Vercel production deploy) DEFERRED to owner action — Vercel CLI/dashboard auth required. See `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-07-SUMMARY.md` for exact deploy steps.*

@@ -19,7 +19,7 @@
 - [x] **INV-02**: Variants schema υποστηρίζει: `id`, `type` (sealed/opened/decant), `size_ml`, `price`, `stock`, optional `fill_pct` *(Plan 01-01)*
 - [ ] **INV-03**: Component που resolve-άρει image: αν λείπει το τοπικό path πέφτει σε `image_fallback_url`
 - [ ] **INV-04**: Validation κατά το build: όλα τα products έχουν τουλάχιστον 1 variant, όλα τα variant ids unique μέσα στο product
-- [ ] **INV-05**: Sample inventory.json με ≥3 πραγματικά products για development/testing
+- [x] **INV-05**: Sample inventory.json με ≥3 πραγματικά products για development/testing *(Plan 01-07 Task 1 — 5 products from 5 brands)*
 
 ### Catalog (Homepage)
 
@@ -133,7 +133,7 @@
 | INV-02 | Phase 1 | Complete (Plan 01-01) |
 | INV-03 | Phase 2 | Pending |
 | INV-04 | Phase 2 | Pending |
-| INV-05 | Phase 1 | Pending |
+| INV-05 | Phase 1 | Complete (Plan 01-07 Task 1) |
 | CAT-01 | Phase 1 | Complete |
 | CAT-02 | Phase 1 | Complete |
 | CAT-03 | Phase 1 | Complete |
@@ -203,4 +203,4 @@
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-11 after Plan 01-04 completion: CAT-09 + CART-01..03 + CART-09 + CART-11 marked complete (18/65 v1 requirements total: FOUND-01..04, INV-01..02, DEP-02, PROD-01..04, PROD-08, UI-06, UI-07, CAT-01..03, CAT-09, CART-01..03, CART-09, CART-11).*
+*Last updated: 2026-05-11 after Plan 01-07 Task 1 completion: INV-05 marked complete (5 products from 5 brands in data/inventory.json). FOUND-05 + DEP-01 remain Pending — awaiting Plan 07 Task 2 (Vercel production deploy, owner-only auth).*
