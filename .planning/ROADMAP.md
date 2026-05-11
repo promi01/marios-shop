@@ -36,7 +36,7 @@ Plans:
 - [x] 01-01-PLAN.md — Walking Skeleton: Next.js 15 + TS + Tailwind v4 + shadcn (button/card/sheet/badge/sonner) + Geist Greek font + types + minimal inventory.json (1 product) + bare homepage + product detail + cart store stub + static export build *(completed 2026-05-11)*
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 01-02-PLAN.md — Catalog: format helpers + VariantBadge + Hero + responsive ProductGrid (1/2/3/4 cols) + ProductCard with image/brand/name/price/badges
+- [x] 01-02-PLAN.md — Catalog: format helpers + VariantBadge + Hero + responsive ProductGrid (1/2/3/4 cols) + ProductCard with image/brand/name/price/badges
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-03-PLAN.md — Product Detail: BackLink + VariantRow + ProductDetail composition (image, title block, notes, description, variants) + polished 404 page per UI-SPEC §10
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 1/7 | In progress | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 2/7 | In progress | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |

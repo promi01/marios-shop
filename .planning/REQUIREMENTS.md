@@ -23,9 +23,9 @@
 
 ### Catalog (Homepage)
 
-- [ ] **CAT-01**: Homepage `/` με hero banner ("Marios Shop" wordmark + tagline "Επιλεγμένα αρώματα από τη συλλογή μου")
-- [ ] **CAT-02**: Responsive product grid: 1 column mobile, 2 tablet, 3 small desktop, 4 large desktop
-- [ ] **CAT-03**: Product card εμφανίζει image, brand, name, lowest price από available variants, badges per variant type
+- [x] **CAT-01**: Homepage `/` με hero banner ("Marios Shop" wordmark + tagline "Επιλεγμένα αρώματα από τη συλλογή μου")
+- [x] **CAT-02**: Responsive product grid: 1 column mobile, 2 tablet, 3 small desktop, 4 large desktop
+- [x] **CAT-03**: Product card εμφανίζει image, brand, name, lowest price από available variants, badges per variant type
 - [ ] **CAT-04**: Φίλτρο τύπου variant: sealed / opened / decant (multi-select chips)
 - [ ] **CAT-05**: Φίλτρο brand: dropdown ή multi-select με όλα τα brands του inventory
 - [ ] **CAT-06**: Search by text: matches σε brand, name, notes (debounced)
@@ -78,8 +78,8 @@
 - [ ] **UI-03**: Mobile-first layout — όλες οι ροές δουλεύουν με ένα χέρι σε κινητό
 - [ ] **UI-04**: Δεν χρησιμοποιούνται emoji στο UI εκτός από το ένα 📋 στο copy button (όπως spec)
 - [ ] **UI-05**: Δεν χρησιμοποιούνται gradients ή flashy animations
-- [ ] **UI-06**: Όλα τα user-facing strings στα Ελληνικά
-- [ ] **UI-07**: Wordmark "Marios Shop" ως text-only logo
+- [x] **UI-06**: Όλα τα user-facing strings στα Ελληνικά
+- [x] **UI-07**: Wordmark "Marios Shop" ως text-only logo
 - [ ] **UI-08**: Loading και error states σε πιθανές failures (image load, clipboard)
 - [ ] **UI-09**: Accessible focus styles, semantic HTML, ARIA where needed
 
@@ -134,9 +134,9 @@
 | INV-03 | Phase 2 | Pending |
 | INV-04 | Phase 2 | Pending |
 | INV-05 | Phase 1 | Pending |
-| CAT-01 | Phase 1 | Pending |
-| CAT-02 | Phase 1 | Pending |
-| CAT-03 | Phase 1 | Pending |
+| CAT-01 | Phase 1 | Complete |
+| CAT-02 | Phase 1 | Complete |
+| CAT-03 | Phase 1 | Complete |
 | CAT-04 | Phase 2 | Pending |
 | CAT-05 | Phase 2 | Pending |
 | CAT-06 | Phase 2 | Pending |
@@ -177,8 +177,8 @@
 | UI-03 | Phase 3 | Pending |
 | UI-04 | Phase 3 | Pending |
 | UI-05 | Phase 3 | Pending |
-| UI-06 | Phase 1 | Pending |
-| UI-07 | Phase 1 | Pending |
+| UI-06 | Phase 1 | Complete |
+| UI-07 | Phase 1 | Complete |
 | UI-08 | Phase 3 | Pending |
 | UI-09 | Phase 3 | Pending |
 | ANL-01 | Phase 4 | Pending |

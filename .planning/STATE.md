@@ -3,18 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-11T11:11:07Z"
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-05-11T11:17:07Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
-  completed_plans: 1
-  percent: 14
+  completed_plans: 2
+  percent: 29
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11
+**Last updated:** 2026-05-11 (Plan 01-02 complete)
 
 ## Project Reference
 
@@ -27,16 +28,16 @@ progress:
 ## Current Position
 
 Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 2 of 7 (Plan 01 complete, ready for Plan 02 — Catalog)
+Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-01 Walking Skeleton — COMPLETE
+- **Plan:** 01-02 Catalog — COMPLETE
 - **Status:** Executing Phase 1
-- **Progress:** 1/7 plans complete in Phase 1; 0/4 phases complete
+- **Progress:** [███░░░░░░░] 29%
 
 ```
-[#---] 0/4 phases complete (Phase 1: 1/7 plans)
+[#---] 0/4 phases complete (Phase 1: 2/7 plans)
 ```
 
 ## Performance Metrics
@@ -45,13 +46,17 @@ Plan: 2 of 7 (Plan 01 complete, ready for Plan 02 — Catalog)
 |--------|-------|
 | Phases planned | 4 |
 | Phases complete | 0 |
-| Plans complete | 1 |
+| Plans complete | 2 |
 | v1 requirements | 65 |
 | v1 requirements mapped | 65 |
 | Coverage | 100% |
 | Plan 01-01 duration (seconds) | 458 |
 | Plan 01-01 tasks completed | 2 |
 | Plan 01-01 files created | 26 |
+| Plan 01-02 duration (seconds) | 131 |
+| Plan 01-02 tasks completed | 2 |
+| Plan 01-02 files created | 5 |
+| Plan 01-02 files modified | 2 |
 
 ## Accumulated Context
 
@@ -67,11 +72,20 @@ Plan: 2 of 7 (Plan 01 complete, ready for Plan 02 — Catalog)
 
 ### Open todos
 
-- Execute Plan 02 (Catalog): format helpers + VariantBadge + Hero + responsive ProductGrid + ProductCard.
+- Execute Plan 03 (Product Detail): BackLink + VariantRow + ProductDetail composition + polished 404.
 
 ### Blockers
 
 (none)
+
+### Decisions logged from Plan 01-02
+
+- shadcn Badge primitive (`components/ui/badge.tsx`) extended with three Phase 1 tone variants — `sealed` (bg-emerald-50 text-emerald-700), `opened` (bg-amber-50 text-amber-800), `decant` (bg-blue-50 text-blue-700) — registered inside the existing `badgeVariants` cva block. All six original shadcn variants (default/secondary/destructive/outline/ghost/link) preserved unchanged. Plans 03 and 05 can write `<Badge variant="sealed">` directly without re-registering.
+- `<VariantBadge type={t} />` is a thin wrapper that renders `<Badge variant={t}>{formatTypeLabel(t)}</Badge>` — NOT a raw `<span>`. UI-SPEC §4 contract honored.
+- Product card image aspect ratio locked to 1:1 (`aspect-square`) per Claude's Discretion in CONTEXT. Final pick recorded for Plan 03's product detail hero, which uses the same UI-SPEC §5 rule (`aspect-square md:aspect-[4/5]`).
+- Catalog price label rule (locked for Plans 03+): `από {n}€` when ≥2 variants are in stock; bare `{n}€` when exactly 1 in stock; defensive fallback to cheapest-known price when everything is out of stock. Rule lives in `components/product-card.tsx → priceLabel(product)`.
+- Badge order on product cards is deterministic — sealed → opened → decant — via a fixed ordering array. Prevents Set-iteration order surprises across renders.
+- `lib/format.ts` exports exactly three pure functions — `formatPrice`, `formatTypeLabel`, `formatItemCount`. `formatTypeLabel` uses an exhaustive switch (no `default`) so TypeScript flags any future `VariantType` addition. Locked contract for Plans 03–06.
 
 ### Decisions logged from Plan 01-01
 
@@ -88,16 +102,18 @@ Plan: 2 of 7 (Plan 01 complete, ready for Plan 02 — Catalog)
 - No emoji in UI except the single 📋 on the copy button.
 - Seed product locked: `tom-ford-tobacco-vanille` / variant `tvf-50-sealed` (Plan 07 replaces with full 5–6 product seed).
 - Client island `app/product/[id]/add-to-cart-button.tsx` exports `AddToCartButton({productId, variantId, disabled})` — locked signature, imported by Plan 03's `<VariantRow>`, internals enriched by Plan 04.
+- Catalog surface components (`components/{hero,product-grid,product-card,variant-badge}.tsx`) are all Server Components — no `'use client'`. Plan 03 / Plan 04 client islands are scoped to the smallest leaves only.
+- `<Badge>` cva variants `sealed`/`opened`/`decant` (Plan 01-02) are now part of the locked shadcn primitive surface — Plans 03/05 import directly without re-extending.
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-02 (Catalog: Hero + ProductGrid + ProductCard + VariantBadge + format helpers).
+**Next action:** Execute Plan 01-03 (Product Detail: BackLink + VariantRow + ProductDetail composition + polished 404).
 
-**Last action:** Completed Plan 01-01 Walking Skeleton — Next.js 15 + Tailwind v4 + shadcn + Zustand scaffolded with 1 seed product end-to-end. `npm run build` produces `out/index.html` and `out/product/tom-ford-tobacco-vanille.html`.
+**Last action:** Completed Plan 01-02 Catalog — Hero + responsive 1/2/3/4 ProductGrid + ProductCard wired, lib/format.ts contracted, shadcn Badge extended with sealed/opened/decant tone variants. `npm run build` exits 0 and out/index.html contains wordmark, tagline, Tom Ford Tobacco Vanille, 180€, and Σφραγισμένο badge.
 
-**Last session:** 2026-05-11T11:11:07Z
-**Stopped at:** Completed 01-01-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-02-PLAN.md` (next plan to execute)
+**Last session:** 2026-05-11T11:17:07Z
+**Stopped at:** Completed 01-02-PLAN.md
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-03-PLAN.md` (next plan to execute)
 
 **Files of record:**
 
