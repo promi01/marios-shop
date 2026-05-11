@@ -33,7 +33,7 @@ A Facebook visitor (mostly mobile) can in <30s find perfumes, build an order lis
 **Plans:** 7 plans
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Walking Skeleton: Next.js 15 + TS + Tailwind v4 + shadcn (button/card/sheet/badge/sonner) + Geist Greek font + types + minimal inventory.json (1 product) + bare homepage + product detail + cart store stub + static export build
+- [x] 01-01-PLAN.md — Walking Skeleton: Next.js 15 + TS + Tailwind v4 + shadcn (button/card/sheet/badge/sonner) + Geist Greek font + types + minimal inventory.json (1 product) + bare homepage + product detail + cart store stub + static export build *(completed 2026-05-11)*
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Catalog: format helpers + VariantBadge + Hero + responsive ProductGrid (1/2/3/4 cols) + ProductCard with image/brand/name/price/badges
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 0/7 | Planned | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 1/7 | In progress | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |
@@ -114,4 +114,4 @@ Plans:
 Coverage: 65/65 v1 requirements mapped, 0 orphans, 0 duplicates.
 
 ---
-*Last updated: 2026-05-11 after Phase 1 plan-phase completed (7 plans, 5 waves).*
+*Last updated: 2026-05-11 after Plan 01-01 Walking Skeleton completed (1/7 plans in Phase 1).*

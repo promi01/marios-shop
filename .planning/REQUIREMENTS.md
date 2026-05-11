@@ -7,16 +7,16 @@
 
 ### Foundation
 
-- [ ] **FOUND-01**: Next.js 15 (App Router) + TypeScript project που buildάρει με `output: 'export'` σε static files
-- [ ] **FOUND-02**: Tailwind CSS + shadcn/ui εγκατεστημένα και functional
-- [ ] **FOUND-03**: TypeScript types ορισμένα για το inventory schema (Product, Variant, VariantType, CartItem)
-- [ ] **FOUND-04**: Inventory διαβάζεται από `/data/inventory.json` σε build time (typed import ή loader)
+- [x] **FOUND-01**: Next.js 15 (App Router) + TypeScript project που buildάρει με `output: 'export'` σε static files *(Plan 01-01)*
+- [x] **FOUND-02**: Tailwind CSS + shadcn/ui εγκατεστημένα και functional *(Plan 01-01)*
+- [x] **FOUND-03**: TypeScript types ορισμένα για το inventory schema (Product, Variant, VariantType, CartItem) *(Plan 01-01)*
+- [x] **FOUND-04**: Inventory διαβάζεται από `/data/inventory.json` σε build time (typed import ή loader) *(Plan 01-01)*
 - [ ] **FOUND-05**: Project deployable στο Vercel ως static site με προεπισκόπηση και production URL
 
 ### Inventory & Data
 
-- [ ] **INV-01**: `inventory.json` schema υποστηρίζει: `id`, `brand`, `name`, `line`, `image`, `image_fallback_url`, `notes`, `description_gr`, `variants[]`
-- [ ] **INV-02**: Variants schema υποστηρίζει: `id`, `type` (sealed/opened/decant), `size_ml`, `price`, `stock`, optional `fill_pct`
+- [x] **INV-01**: `inventory.json` schema υποστηρίζει: `id`, `brand`, `name`, `line`, `image`, `image_fallback_url`, `notes`, `description_gr`, `variants[]` *(Plan 01-01)*
+- [x] **INV-02**: Variants schema υποστηρίζει: `id`, `type` (sealed/opened/decant), `size_ml`, `price`, `stock`, optional `fill_pct` *(Plan 01-01)*
 - [ ] **INV-03**: Component που resolve-άρει image: αν λείπει το τοπικό path πέφτει σε `image_fallback_url`
 - [ ] **INV-04**: Validation κατά το build: όλα τα products έχουν τουλάχιστον 1 variant, όλα τα variant ids unique μέσα στο product
 - [ ] **INV-05**: Sample inventory.json με ≥3 πραγματικά products για development/testing
@@ -94,7 +94,7 @@
 ### Deploy
 
 - [ ] **DEP-01**: Vercel project linked με auto-deploys από main branch
-- [ ] **DEP-02**: Build verification: `next build` παράγει `out/` με static files χωρίς server runtime
+- [x] **DEP-02**: Build verification: `next build` παράγει `out/` με static files χωρίς server runtime *(Plan 01-01)*
 - [ ] **DEP-03**: README με οδηγίες local dev, edit inventory, deploy
 
 ## v2 Requirements
@@ -124,13 +124,13 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete (Plan 01-01) |
+| FOUND-02 | Phase 1 | Complete (Plan 01-01) |
+| FOUND-03 | Phase 1 | Complete (Plan 01-01) |
+| FOUND-04 | Phase 1 | Complete (Plan 01-01) |
 | FOUND-05 | Phase 1 | Pending |
-| INV-01 | Phase 1 | Pending |
-| INV-02 | Phase 1 | Pending |
+| INV-01 | Phase 1 | Complete (Plan 01-01) |
+| INV-02 | Phase 1 | Complete (Plan 01-01) |
 | INV-03 | Phase 2 | Pending |
 | INV-04 | Phase 2 | Pending |
 | INV-05 | Phase 1 | Pending |
@@ -187,7 +187,7 @@
 | ANL-04 | Phase 4 | Pending |
 | ANL-05 | Phase 4 | Pending |
 | DEP-01 | Phase 1 | Pending |
-| DEP-02 | Phase 1 | Pending |
+| DEP-02 | Phase 1 | Complete (Plan 01-01) |
 | DEP-03 | Phase 4 | Pending |
 
 **Coverage:**
@@ -203,4 +203,4 @@
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-10 after roadmap traceability mapping*
+*Last updated: 2026-05-11 after Plan 01-01 completion: FOUND-01..04, INV-01..02, DEP-02 marked complete (7/65 v1 requirements).*
