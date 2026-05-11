@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
+import { CartHydration } from '@/components/cart-hydration';
+import { StickyCartButton } from '@/components/sticky-cart-button';
 import './globals.css';
 
 // NOTE: Google Fonts' Geist does not ship a 'greek' subset (only `cyrillic`,
@@ -25,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="el" className={geist.variable}>
       <body className="font-sans antialiased bg-white text-neutral-950">
+        <CartHydration />
         {children}
+        <StickyCartButton />
         <Toaster />
       </body>
     </html>
