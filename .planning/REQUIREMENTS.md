@@ -51,10 +51,10 @@
 - [x] **CART-02**: Cart item shape: `{ product_id, variant_id, quantity }` *(Plan 01-01 + Plan 01-04 consumer wiring)*
 - [x] **CART-03**: Adding to cart αυξάνει quantity αν το variant υπάρχει ήδη, αλλιώς το προσθέτει *(Plan 01-01 + Plan 01-04 consumer wiring)*
 - [ ] **CART-04**: Validation: ποτέ `quantity > variant.stock` (clamp στο stock με toast προειδοποίησης)
-- [ ] **CART-05**: Cart ανοίγει ως drawer/sheet (όχι ξεχωριστή σελίδα) από οπουδήποτε στο site
-- [ ] **CART-06**: Cart drawer εμφανίζει per item: brand, name, variant (type + size), τιμή/τεμάχιο, ποσότητα, sub-total
+- [x] **CART-05**: Cart ανοίγει ως drawer/sheet (όχι ξεχωριστή σελίδα) από οπουδήποτε στο site *(Plan 01-05 — right-side Sheet mounted globally in app/layout.tsx)*
+- [x] **CART-06**: Cart drawer εμφανίζει per item: brand, name, variant (type + size), τιμή/τεμάχιο, ποσότητα, sub-total *(Plan 01-05 — <CartDrawerItem /> renders all six fields)*
 - [ ] **CART-07**: User μπορεί να αλλάξει ποσότητα μέσα στο drawer (+/- buttons, με stock clamp)
-- [ ] **CART-08**: User μπορεί να αφαιρέσει item από drawer
+- [x] **CART-08**: User μπορεί να αφαιρέσει item από drawer *(Plan 01-05 — Trash2 button calls useCartStore.removeItem)*
 - [x] **CART-09**: Drawer footer εμφανίζει σύνολο €, σύνολο τεμαχίων *(Plan 01-04 — sum-of-quantity reducer wired to the StickyCartButton badge; Plan 05 will reuse the same reducer in the drawer footer)*
 - [ ] **CART-10**: Κουμπί "Καθαρισμός" αδειάζει το cart (με confirm)
 - [x] **CART-11**: Cart hydrate-άρει από localStorage σε mount χωρίς hydration mismatch *(Plan 01-04 — CartHydration flips isHydrated; StickyCartButton badge hidden until isHydrated)*
@@ -156,10 +156,10 @@
 | CART-02 | Phase 1 | Complete (Plan 01-04) |
 | CART-03 | Phase 1 | Complete (Plan 01-04) |
 | CART-04 | Phase 2 | Pending |
-| CART-05 | Phase 1 | Pending |
-| CART-06 | Phase 1 | Pending |
+| CART-05 | Phase 1 | Complete (Plan 01-05) |
+| CART-06 | Phase 1 | Complete (Plan 01-05) |
 | CART-07 | Phase 2 | Pending |
-| CART-08 | Phase 1 | Pending |
+| CART-08 | Phase 1 | Complete (Plan 01-05) |
 | CART-09 | Phase 1 | Complete (Plan 01-04) |
 | CART-10 | Phase 2 | Pending |
 | CART-11 | Phase 1 | Complete (Plan 01-04) |

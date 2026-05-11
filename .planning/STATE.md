@@ -3,19 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-05-11T11:31:09Z"
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-05-11T11:38:22Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
-  completed_plans: 4
-  percent: 57
+  completed_plans: 5
+  percent: 71
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11 (Plan 01-04 complete)
+**Last updated:** 2026-05-11 (Plan 01-05 complete)
 
 ## Project Reference
 
@@ -28,16 +28,16 @@ progress:
 ## Current Position
 
 Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
+Plan: 6 of 7 (Plans 01–05 complete, ready for Plan 06 — Copy-to-Messenger)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-04 Cart Consumer Wiring + Toast — COMPLETE
+- **Plan:** 01-05 Cart Drawer — COMPLETE
 - **Status:** Executing Phase 1
-- **Progress:** [██████░░░░] 57%
+- **Progress:** [███████░░░] 71%
 
 ```
-[#---] 0/4 phases complete (Phase 1: 4/7 plans)
+[#---] 0/4 phases complete (Phase 1: 5/7 plans)
 ```
 
 ## Performance Metrics
@@ -46,7 +46,7 @@ Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
 |--------|-------|
 | Phases planned | 4 |
 | Phases complete | 0 |
-| Plans complete | 4 |
+| Plans complete | 5 |
 | v1 requirements | 65 |
 | v1 requirements mapped | 65 |
 | Coverage | 100% |
@@ -65,6 +65,10 @@ Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
 | Plan 01-04 tasks completed | 2 |
 | Plan 01-04 files created | 3 |
 | Plan 01-04 files modified | 2 |
+| Plan 01-05 duration (seconds) | 135 |
+| Plan 01-05 tasks completed | 2 |
+| Plan 01-05 files created | 3 |
+| Plan 01-05 files modified | 1 |
 
 ## Accumulated Context
 
@@ -80,11 +84,23 @@ Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
 
 ### Open todos
 
-- Execute Plan 05 (Cart Drawer): build `<CartDrawer />` `<Sheet side="right">` consuming `useCartUiStore.isDrawerOpen` from Plan 04, render header (`Καλάθι`) + scrollable item list (with `<CartDrawerItem />` line items: brand/name/variant/qty/subtotal/remove icon) + footer summary (`Σύνολο` + `N τεμάχια`) + empty state + Copy CTA placeholder slot (filled by Plan 06).
+- Execute Plan 06 (Copy-to-Messenger): build tested `formatOrderText` pure function + `copyToClipboard` (navigator.clipboard primary path + textarea fallback per D-24) + `<CopyToMessengerButton />` that REPLACES the disabled placeholder slot (`data-slot="copy-cta-placeholder"`) in `components/cart-drawer.tsx` footer, with Sonner success/error toasts (`Αντιγράφηκε!` / `Δεν αντιγράφηκε — δοκιμάστε ξανά`).
 
 ### Blockers
 
 (none)
+
+### Decisions logged from Plan 01-05
+
+- Cart drawer is a right-side shadcn `<Sheet side="right">` at `w-[85vw] sm:w-[420px]` (D-09 honored — no bottom-sheet variant). Mounted globally in `app/layout.tsx` AFTER `<StickyCartButton />` (z-40) so the drawer's Radix portal (z-50 default) correctly covers the sticky button when open.
+- Drawer reads from TWO Zustand stores: `useCartUiStore` for open state (`isDrawerOpen`, `setDrawerOpen` — Plan 04 surface) and `useCartStore` for items + `isHydrated` (Plan 01 surface). The FAB click that was a no-op in Plan 04 is now functional — clicking opens the drawer.
+- Display fields (brand, name, price, size, type) are resolved FRESH from `inventory.json` on every render via `getProductById` + `getVariant` per CONTEXT D-06. Only `{product_id, variant_id, quantity}` is persisted (Plan 01 partialize); the drawer never reads brand/name/price from localStorage. A two-step null filter with a TypeScript type predicate (`(x): x is ResolvedLine => x !== null`) keeps stale items from crashing the drawer and excludes them from totals as a bonus.
+- Empty state condition is `!isHydrated || resolved.length === 0`. Until persist rehydrates (Plan 04's `<CartHydration />` flips `isHydrated`), the drawer shows `<CartDrawerEmpty />` rather than a stale list. Same hydration-safe pattern as Plan 04's badge counter — keeps SSR/CSR markup consistent (CART-11 / D-07).
+- Totals computed from `resolved` (the filtered list), NOT raw `items` — so a stale item that gets filtered out also drops out of the displayed total. No "phantom euros" from items rendered nowhere.
+- Three-section flex layout uses `flex flex-col p-0 gap-0` to override shadcn's default `gap-4` + `p-4` on `<SheetContent>` — otherwise the header/list/footer would have surplus padding and the body's `flex-1 overflow-y-auto` wouldn't fill 100% of the remaining height. Header and footer get their own `px-5 py-4` padding.
+- Copy CTA placeholder is functional disabled markup with `data-slot="copy-cta-placeholder"` deterministic locator + locked Greek+emoji label `📋 Αντιγραφή για Messenger`. Plan 06's executor will grep that attribute and either flip `disabled` + add `onClick`, or extract the button to its own component. Drawer is screenshot-complete in Plan 5 — the disabled visual is correct for the empty-cart case (COPY-08).
+- Drawer close button (X) is auto-rendered by shadcn `<SheetContent>` with English `Close` sr-only label. UI-SPEC §Copywriting Contract specifies `Κλείσιμο` for the close aria-label. This gap lives inside the shadcn primitive (`components/ui/sheet.tsx`), not in the cart-drawer composition — touching the shadcn primitive is out of scope for Plan 5 and Phase 1's a11y minimums are still met (Radix Sheet provides role=dialog, aria-modal, focus trap, Esc close). Documented as a known minor copywriting gap; Phase 3 UI Polish (UI-09) is the natural home for the fix.
+- Plan 5's `<CartDrawerItem />` is a `'use client'` Component (has remove onClick); `<CartDrawerEmpty />` is a Server Component (purely presentational). Both ship in the client bundle because the parent `<CartDrawer />` is `'use client'`, but the separation reflects intent.
 
 ### Decisions logged from Plan 01-04
 
@@ -136,13 +152,13 @@ Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-05 (Cart Drawer): build `<CartDrawer />` Sheet right-side drawer consuming `useCartUiStore.isDrawerOpen` from Plan 04; render header (`Καλάθι`) + scrollable item list with `<CartDrawerItem />` (brand/name/variant + size + qty × price + subtotal + remove icon) + footer summary (`Σύνολο` + `N τεμάχια` + total €) + empty state + Copy CTA placeholder slot (filled by Plan 06).
+**Next action:** Execute Plan 01-06 (Copy-to-Messenger): build tested `lib/copy-format.ts → formatOrderText(items)` pure function producing the locked Greek order-text format (UI-SPEC §Copy-to-Messenger Format — header `Παραγγελία — Marios Shop`, indexed items with `{TypeLabelGr} {size}ml — {price}€ × {qty} = {subtotal}€`, footer `Σύνολο: {total}€ — {N} τεμάχια`); `lib/copy-clipboard.ts → copyToClipboard(text)` with `navigator.clipboard.writeText` primary + textarea fallback (D-24); `<CopyToMessengerButton />` component that REPLACES the disabled placeholder slot (`data-slot="copy-cta-placeholder"`) in `components/cart-drawer.tsx` footer, gated `disabled={items.length === 0}` per COPY-08; Sonner toasts `Αντιγράφηκε!` (success) / `Δεν αντιγράφηκε — δοκιμάστε ξανά` (error). Preserves the locked label `📋 Αντιγραφή για Messenger` (UI-04 single-emoji rule).
 
-**Last action:** Completed Plan 01-04 Cart Consumer Wiring + Toast — created `lib/cart-ui-store.ts` (ephemeral Zustand store with `isDrawerOpen` + `openDrawer`/`closeDrawer`/`setDrawerOpen`), `components/cart-hydration.tsx` (side-effect-only `<CartHydration />` calling `setHydrated()` once), `components/sticky-cart-button.tsx` (56×56 black FAB at `fixed bottom-4 right-4 z-40` with sum-of-quantity badge hidden when count=0 or pre-hydration, dynamic Greek aria-label, click → `openDrawer()`). Mounted both globally in `app/layout.tsx`. Enriched `app/product/[id]/add-to-cart-button.tsx` with Sonner `toast.success("Προστέθηκε: {brand} — {name}")` on successful add (silent stock clamp per D-11 → no toast); function signature `AddToCartButton({ productId, variantId, disabled })` preserved verbatim so Plan 03's `<VariantRow>` continues to work. `npm run build` exits 0; all 20 grep gates pass.
+**Last action:** Completed Plan 01-05 Cart Drawer — created `components/cart-drawer-empty.tsx` (lone ShoppingBag + Greek heading/body per UI-SPEC §8d), `components/cart-drawer-item.tsx` (56×56 thumbnail, brand/name/variant row with `<VariantBadge />` + size + qty×price, subtotal, 44×44 Trash2 remove with `Αφαίρεση {brand} {name}` aria-label calling `useCartStore.removeItem`), `components/cart-drawer.tsx` (right-side `<Sheet>` at `w-[85vw] sm:w-[420px]`, header `Καλάθι`, scrollable item list or empty state gated by `!isHydrated || resolved.length === 0`, footer with `Σύνολο`/formatItemCount/total € and a disabled `data-slot="copy-cta-placeholder"` button labeled `📋 Αντιγραφή για Messenger`). Display fields resolved fresh from inventory per render (CONTEXT D-06). Mounted `<CartDrawer />` globally in `app/layout.tsx` after `<StickyCartButton />` (z-40), before `<Toaster />`. `npm run build` exits 0; all 17 grep gates pass; `npx tsc --noEmit` reports zero errors.
 
-**Last session:** 2026-05-11T11:31:09Z
-**Stopped at:** Completed 01-04-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-05-PLAN.md` (next plan to execute)
+**Last session:** 2026-05-11T11:38:22Z
+**Stopped at:** Completed 01-05-PLAN.md
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-06-PLAN.md` (next plan to execute)
 
 **Files of record:**
 

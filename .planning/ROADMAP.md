@@ -43,7 +43,7 @@ Plans:
 - [x] 01-04-PLAN.md — Cart Store consumer wiring: useCartUiStore (drawer open state) + CartHydration + StickyCartButton (FAB with badge) + Add-to-cart Sonner toast feedback *(completed 2026-05-11)*
 
 **Wave 4** *(blocked on Wave 3 completion)*
-- [ ] 01-05-PLAN.md — Cart Drawer: Sheet-based right-side drawer (header/list/footer/empty) + CartDrawerItem (brand/name/variant/qty/subtotal/remove) + Copy CTA placeholder slot
+- [x] 01-05-PLAN.md — Cart Drawer: Sheet-based right-side drawer (header/list/footer/empty) + CartDrawerItem (brand/name/variant/qty/subtotal/remove) + Copy CTA placeholder slot *(completed 2026-05-11)*
 
 **Wave 5** *(blocked on Wave 4 completion)*
 - [ ] 01-06-PLAN.md — Copy-to-Messenger: tested formatOrderText pure function + copyToClipboard (navigator.clipboard + textarea fallback) + CopyToMessengerButton + drawer wiring + Sonner success/error toasts
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 4/7 | In progress | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 5/7 | In progress | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |
