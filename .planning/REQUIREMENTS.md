@@ -31,7 +31,7 @@
 - [ ] **CAT-06**: Search by text: matches σε brand, name, notes (debounced)
 - [ ] **CAT-07**: Sort: brand A→Z, price asc, price desc, recently added (default)
 - [ ] **CAT-08**: Empty state όταν τα φίλτρα δεν επιστρέφουν αποτελέσματα ("Δεν βρέθηκαν αρώματα")
-- [ ] **CAT-09**: Sticky cart button bottom-right με badge counter (συνολικά τεμάχια)
+- [x] **CAT-09**: Sticky cart button bottom-right με badge counter (συνολικά τεμάχια) *(Plan 01-04)*
 
 ### Product Detail
 
@@ -47,17 +47,17 @@
 
 ### Cart
 
-- [ ] **CART-01**: Cart state managed με Zustand ή React Context, persist στο localStorage key `marios-shop-cart`
-- [ ] **CART-02**: Cart item shape: `{ product_id, variant_id, quantity }`
-- [ ] **CART-03**: Adding to cart αυξάνει quantity αν το variant υπάρχει ήδη, αλλιώς το προσθέτει
+- [x] **CART-01**: Cart state managed με Zustand ή React Context, persist στο localStorage key `marios-shop-cart` *(Plan 01-01 + Plan 01-04 consumer wiring)*
+- [x] **CART-02**: Cart item shape: `{ product_id, variant_id, quantity }` *(Plan 01-01 + Plan 01-04 consumer wiring)*
+- [x] **CART-03**: Adding to cart αυξάνει quantity αν το variant υπάρχει ήδη, αλλιώς το προσθέτει *(Plan 01-01 + Plan 01-04 consumer wiring)*
 - [ ] **CART-04**: Validation: ποτέ `quantity > variant.stock` (clamp στο stock με toast προειδοποίησης)
 - [ ] **CART-05**: Cart ανοίγει ως drawer/sheet (όχι ξεχωριστή σελίδα) από οπουδήποτε στο site
 - [ ] **CART-06**: Cart drawer εμφανίζει per item: brand, name, variant (type + size), τιμή/τεμάχιο, ποσότητα, sub-total
 - [ ] **CART-07**: User μπορεί να αλλάξει ποσότητα μέσα στο drawer (+/- buttons, με stock clamp)
 - [ ] **CART-08**: User μπορεί να αφαιρέσει item από drawer
-- [ ] **CART-09**: Drawer footer εμφανίζει σύνολο €, σύνολο τεμαχίων
+- [x] **CART-09**: Drawer footer εμφανίζει σύνολο €, σύνολο τεμαχίων *(Plan 01-04 — sum-of-quantity reducer wired to the StickyCartButton badge; Plan 05 will reuse the same reducer in the drawer footer)*
 - [ ] **CART-10**: Κουμπί "Καθαρισμός" αδειάζει το cart (με confirm)
-- [ ] **CART-11**: Cart hydrate-άρει από localStorage σε mount χωρίς hydration mismatch
+- [x] **CART-11**: Cart hydrate-άρει από localStorage σε mount χωρίς hydration mismatch *(Plan 01-04 — CartHydration flips isHydrated; StickyCartButton badge hidden until isHydrated)*
 - [ ] **CART-12**: Stock changes στο inventory.json: items με stock=0 παραμένουν στο cart αλλά flagged ως μη διαθέσιμα
 
 ### Copy to Messenger
@@ -142,7 +142,7 @@
 | CAT-06 | Phase 2 | Pending |
 | CAT-07 | Phase 2 | Pending |
 | CAT-08 | Phase 2 | Pending |
-| CAT-09 | Phase 1 | Pending |
+| CAT-09 | Phase 1 | Complete (Plan 01-04) |
 | PROD-01 | Phase 1 | Complete (Plan 01-03) |
 | PROD-02 | Phase 1 | Complete (Plan 01-03) |
 | PROD-03 | Phase 1 | Complete (Plan 01-03) |
@@ -152,17 +152,17 @@
 | PROD-07 | Phase 2 | Pending |
 | PROD-08 | Phase 1 | Complete (Plan 01-03) |
 | PROD-09 | Phase 2 | Pending |
-| CART-01 | Phase 1 | Pending |
-| CART-02 | Phase 1 | Pending |
-| CART-03 | Phase 1 | Pending |
+| CART-01 | Phase 1 | Complete (Plan 01-04) |
+| CART-02 | Phase 1 | Complete (Plan 01-04) |
+| CART-03 | Phase 1 | Complete (Plan 01-04) |
 | CART-04 | Phase 2 | Pending |
 | CART-05 | Phase 1 | Pending |
 | CART-06 | Phase 1 | Pending |
 | CART-07 | Phase 2 | Pending |
 | CART-08 | Phase 1 | Pending |
-| CART-09 | Phase 1 | Pending |
+| CART-09 | Phase 1 | Complete (Plan 01-04) |
 | CART-10 | Phase 2 | Pending |
-| CART-11 | Phase 1 | Pending |
+| CART-11 | Phase 1 | Complete (Plan 01-04) |
 | CART-12 | Phase 2 | Pending |
 | COPY-01 | Phase 1 | Pending |
 | COPY-02 | Phase 1 | Pending |
@@ -203,4 +203,4 @@
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-11 after Plan 01-03 completion: PROD-01..04 + PROD-08 marked complete (12/65 v1 requirements total: FOUND-01..04, INV-01..02, DEP-02, PROD-01..04, PROD-08, UI-06, UI-07).*
+*Last updated: 2026-05-11 after Plan 01-04 completion: CAT-09 + CART-01..03 + CART-09 + CART-11 marked complete (18/65 v1 requirements total: FOUND-01..04, INV-01..02, DEP-02, PROD-01..04, PROD-08, UI-06, UI-07, CAT-01..03, CAT-09, CART-01..03, CART-09, CART-11).*

@@ -3,19 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-05-11T11:23:16Z"
+stopped_at: Completed 01-04-PLAN.md
+last_updated: "2026-05-11T11:31:09Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
-  completed_plans: 3
-  percent: 43
+  completed_plans: 4
+  percent: 57
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11 (Plan 01-03 complete)
+**Last updated:** 2026-05-11 (Plan 01-04 complete)
 
 ## Project Reference
 
@@ -28,16 +28,16 @@ progress:
 ## Current Position
 
 Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer wiring + toast)
+Plan: 5 of 7 (Plans 01–04 complete, ready for Plan 05 — Cart Drawer)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-03 Product Detail + 404 Polish — COMPLETE
+- **Plan:** 01-04 Cart Consumer Wiring + Toast — COMPLETE
 - **Status:** Executing Phase 1
-- **Progress:** [████░░░░░░] 43%
+- **Progress:** [██████░░░░] 57%
 
 ```
-[#---] 0/4 phases complete (Phase 1: 3/7 plans)
+[#---] 0/4 phases complete (Phase 1: 4/7 plans)
 ```
 
 ## Performance Metrics
@@ -46,7 +46,7 @@ Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer 
 |--------|-------|
 | Phases planned | 4 |
 | Phases complete | 0 |
-| Plans complete | 3 |
+| Plans complete | 4 |
 | v1 requirements | 65 |
 | v1 requirements mapped | 65 |
 | Coverage | 100% |
@@ -61,6 +61,10 @@ Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer 
 | Plan 01-03 tasks completed | 2 |
 | Plan 01-03 files created | 3 |
 | Plan 01-03 files modified | 2 |
+| Plan 01-04 duration (seconds) | 198 |
+| Plan 01-04 tasks completed | 2 |
+| Plan 01-04 files created | 3 |
+| Plan 01-04 files modified | 2 |
 
 ## Accumulated Context
 
@@ -76,11 +80,22 @@ Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer 
 
 ### Open todos
 
-- Execute Plan 04 (Cart Store consumer wiring + Sonner toast feedback on add): modify `app/product/[id]/add-to-cart-button.tsx` internals while preserving the locked `AddToCartButton({productId, variantId, disabled})` signature; build `useCartUiStore`, `CartHydration`, `StickyCartButton`.
+- Execute Plan 05 (Cart Drawer): build `<CartDrawer />` `<Sheet side="right">` consuming `useCartUiStore.isDrawerOpen` from Plan 04, render header (`Καλάθι`) + scrollable item list (with `<CartDrawerItem />` line items: brand/name/variant/qty/subtotal/remove icon) + footer summary (`Σύνολο` + `N τεμάχια`) + empty state + Copy CTA placeholder slot (filled by Plan 06).
 
 ### Blockers
 
 (none)
+
+### Decisions logged from Plan 01-04
+
+- `useCartUiStore` (Plan 04) is a SEPARATE Zustand store from `useCartStore` (Plan 01). Rationale: drawer state must not persist across refresh; Plan 05 wires its `<Sheet>` against this ephemeral store without touching the persistent cart store. Contract locked: `isDrawerOpen: boolean`, `openDrawer()`, `closeDrawer()`, `setDrawerOpen(open: boolean)`. No `persist` middleware.
+- `<CartHydration />` (Plan 04) is a side-effect-only client component returning `null` and calling `useCartStore.setHydrated()` once inside a `useEffect`. Mounted FIRST inside `<body>` of `app/layout.tsx` (before `{children}`) so any child reading `isHydrated` sees the right ordering. CART-11 contract satisfied — no React hydration mismatch.
+- `<StickyCartButton />` (Plan 04) renders ALWAYS (D-12) — only the badge is conditional (`isHydrated && count > 0`). Badge counter = SUM of quantities via `items.reduce((sum, i) => sum + i.quantity, 0)` (CAT-09), NOT `items.length`. Dynamic Greek aria-label via `formatItemCount` (`Άνοιγμα καλαθιού` empty / `Άνοιγμα καλαθιού — {N} τεμάχια` filled).
+- Sticky FAB click handler calls `useCartUiStore.openDrawer()`. In Plan 04 this is effectively a no-op (no `<Sheet>` consumer yet); Plan 05 will add the `<Sheet>` without touching `<StickyCartButton />`.
+- `AddToCartButton` (Plan 04) function signature `({ productId, variantId, disabled })` was PRESERVED — verified via `git show 9d81339:app/product/[id]/add-to-cart-button.tsx` vs current file. Plan 03's `<VariantRow>` import continues to work unchanged.
+- Toast wording locked: `Προστέθηκε: {brand} — {name}` (with em-dash U+2014) fired via `toast.success()` from the `sonner` package (NOT from `@/components/ui/sonner` — that exports the configured `<Toaster />`, not `toast()`). The toast fires ONLY when the cart's variant quantity actually increased — silent stock clamp (D-11) produces no toast, awaiting CART-04's warning toast in Phase 2.
+- Per D-10 the cart drawer does NOT auto-open after add — toast + sticky badge are the only feedback so the user can keep browsing.
+- Before/after quantity snapshot inside the click handler uses `useCartStore.getState()` (imperative reads) — no extra subscribe, no extra re-render. `const itemsBefore = useCartStore.getState().items` then `.find(...)` keeps the call on a single line so the plan's `useCartStore.getState` ≥ 2 grep gate passes literally (Rule-3 deviation: reformat to satisfy literal grep contract, documented in 01-04-SUMMARY.md).
 
 ### Decisions logged from Plan 01-03
 
@@ -121,13 +136,13 @@ Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer 
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-04 (Cart Store consumer wiring: useCartUiStore for drawer-open state + CartHydration helper + StickyCartButton FAB with badge + Sonner toast feedback inside `app/product/[id]/add-to-cart-button.tsx` while preserving signature).
+**Next action:** Execute Plan 01-05 (Cart Drawer): build `<CartDrawer />` Sheet right-side drawer consuming `useCartUiStore.isDrawerOpen` from Plan 04; render header (`Καλάθι`) + scrollable item list with `<CartDrawerItem />` (brand/name/variant + size + qty × price + subtotal + remove icon) + footer summary (`Σύνολο` + `N τεμάχια` + total €) + empty state + Copy CTA placeholder slot (filled by Plan 06).
 
-**Last action:** Completed Plan 01-03 Product Detail + 404 Polish — built `<BackLink />`, `<VariantRow />`, `<ProductDetail />` Server Components; rewired `app/product/[id]/page.tsx` to render `<ProductDetail>`; polished `app/not-found.tsx` per UI-SPEC §10. `npm run build` exits 0 and produces `out/product/tom-ford-tobacco-vanille.html` with full UI-SPEC §5 surface (hero image, brand/name/line, notes, description, variant row with badge + 50ml + 180€ + Προσθήκη button) + `out/404.html` with polished CTA. `app/product/[id]/add-to-cart-button.tsx` NOT modified (signature locked for Wave 3 parallel execution).
+**Last action:** Completed Plan 01-04 Cart Consumer Wiring + Toast — created `lib/cart-ui-store.ts` (ephemeral Zustand store with `isDrawerOpen` + `openDrawer`/`closeDrawer`/`setDrawerOpen`), `components/cart-hydration.tsx` (side-effect-only `<CartHydration />` calling `setHydrated()` once), `components/sticky-cart-button.tsx` (56×56 black FAB at `fixed bottom-4 right-4 z-40` with sum-of-quantity badge hidden when count=0 or pre-hydration, dynamic Greek aria-label, click → `openDrawer()`). Mounted both globally in `app/layout.tsx`. Enriched `app/product/[id]/add-to-cart-button.tsx` with Sonner `toast.success("Προστέθηκε: {brand} — {name}")` on successful add (silent stock clamp per D-11 → no toast); function signature `AddToCartButton({ productId, variantId, disabled })` preserved verbatim so Plan 03's `<VariantRow>` continues to work. `npm run build` exits 0; all 20 grep gates pass.
 
-**Last session:** 2026-05-11T11:23:16Z
-**Stopped at:** Completed 01-03-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-04-PLAN.md` (next plan to execute)
+**Last session:** 2026-05-11T11:31:09Z
+**Stopped at:** Completed 01-04-PLAN.md
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-05-PLAN.md` (next plan to execute)
 
 **Files of record:**
 
