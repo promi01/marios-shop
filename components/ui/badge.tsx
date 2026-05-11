@@ -18,6 +18,13 @@ const badgeVariants = cva(
           "border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         ghost: "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         link: "text-primary underline-offset-4 [a&]:hover:underline",
+        // Phase 1 variant-type tones per UI-SPEC §4 + CONTEXT D-15.
+        // font-normal (not font-medium) per UI-SPEC §4; border-transparent to suppress
+        // shadcn's default border; no hover state because variant badges are static labels
+        // (UI-SPEC §4 "States: Static").
+        sealed: "border-transparent bg-emerald-50 text-emerald-700 font-normal",
+        opened: "border-transparent bg-amber-50 text-amber-800 font-normal",
+        decant: "border-transparent bg-blue-50 text-blue-700 font-normal",
       },
     },
     defaultVariants: {
