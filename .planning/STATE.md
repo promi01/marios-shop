@@ -3,19 +3,19 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-05-11T11:17:07Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-05-11T11:23:16Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 7
-  completed_plans: 2
-  percent: 29
+  completed_plans: 3
+  percent: 43
 ---
 
 # State: Marios Shop
 
-**Last updated:** 2026-05-11 (Plan 01-02 complete)
+**Last updated:** 2026-05-11 (Plan 01-03 complete)
 
 ## Project Reference
 
@@ -28,16 +28,16 @@ progress:
 ## Current Position
 
 Phase: 1 (Vertical MVP — Browse, Cart, Copy, Deploy) — EXECUTING
-Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
+Plan: 4 of 7 (Plans 01–03 complete, ready for Plan 04 — Cart Store consumer wiring + toast)
 
 - **Milestone:** v1
 - **Phase:** 1 — Vertical MVP — Browse, Cart, Copy, Deploy
-- **Plan:** 01-02 Catalog — COMPLETE
+- **Plan:** 01-03 Product Detail + 404 Polish — COMPLETE
 - **Status:** Executing Phase 1
-- **Progress:** [███░░░░░░░] 29%
+- **Progress:** [████░░░░░░] 43%
 
 ```
-[#---] 0/4 phases complete (Phase 1: 2/7 plans)
+[#---] 0/4 phases complete (Phase 1: 3/7 plans)
 ```
 
 ## Performance Metrics
@@ -46,7 +46,7 @@ Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
 |--------|-------|
 | Phases planned | 4 |
 | Phases complete | 0 |
-| Plans complete | 2 |
+| Plans complete | 3 |
 | v1 requirements | 65 |
 | v1 requirements mapped | 65 |
 | Coverage | 100% |
@@ -57,6 +57,10 @@ Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
 | Plan 01-02 tasks completed | 2 |
 | Plan 01-02 files created | 5 |
 | Plan 01-02 files modified | 2 |
+| Plan 01-03 duration (seconds) | 148 |
+| Plan 01-03 tasks completed | 2 |
+| Plan 01-03 files created | 3 |
+| Plan 01-03 files modified | 2 |
 
 ## Accumulated Context
 
@@ -72,11 +76,21 @@ Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
 
 ### Open todos
 
-- Execute Plan 03 (Product Detail): BackLink + VariantRow + ProductDetail composition + polished 404.
+- Execute Plan 04 (Cart Store consumer wiring + Sonner toast feedback on add): modify `app/product/[id]/add-to-cart-button.tsx` internals while preserving the locked `AddToCartButton({productId, variantId, disabled})` signature; build `useCartUiStore`, `CartHydration`, `StickyCartButton`.
 
 ### Blockers
 
 (none)
+
+### Decisions logged from Plan 01-03
+
+- `app/product/[id]/add-to-cart-button.tsx` was NOT modified by Plan 03. The Plan 01 client-island signature `AddToCartButton({productId, variantId, disabled})` is honored as a frozen contract for the duration of Wave 3 (Plan 04 owns the toast enrichment of that file's internals). Verified via `git log --name-only` on commits ea59ef9..HEAD.
+- Stock=0 visual stub is a server-side disabled shadcn `<Button>` with `aria-disabled` + UI-SPEC §6 disabled classes, NOT `<AddToCartButton disabled>`. Rationale: keeps the row a Server Component path when stock=0 (no unused client island per row), and Plan 04's toast enrichment is naturally bypassed for stock=0 — correct behavior.
+- Hero image on product detail uses `priority` (true) for above-the-fold LCP pre-load + explicit `sizes="(min-width: 768px) 768px, 100vw"` matching the `max-w-3xl` container width. External URLs work because `next.config.ts` has `images: { unoptimized: true }` per D-23.
+- Variants `<ul>` uses `space-y-0` because each `<li>` already carries `border-t border-neutral-200 py-3` — the first row's top border is the clean ruled-list look UI-SPEC §5a calls for.
+- `<div className="h-16" aria-hidden />` bottom spacer (64px) on the product detail page reserves safe-area for Plan 04's sticky cart FAB (bottom-4 right-4, h-14 w-14) so the last variant row is never obscured on small viewports.
+- 404 CTA uses `<Button asChild>` wrapping `<Link href="/">` — keeps DOM nesting clean (no `<button>` inside `<a>`) and aligns with UI-SPEC §6 primary button anatomy.
+- The Plan 03 surface is final for Phase 1 (`back-link.tsx`, `variant-row.tsx`, `product-detail.tsx`, `app/not-found.tsx`). Plan 04 will only modify `app/product/[id]/add-to-cart-button.tsx` internals to add toast feedback.
 
 ### Decisions logged from Plan 01-02
 
@@ -107,13 +121,13 @@ Plan: 3 of 7 (Plans 01–02 complete, ready for Plan 03 — Product Detail)
 
 ## Session Continuity
 
-**Next action:** Execute Plan 01-03 (Product Detail: BackLink + VariantRow + ProductDetail composition + polished 404).
+**Next action:** Execute Plan 01-04 (Cart Store consumer wiring: useCartUiStore for drawer-open state + CartHydration helper + StickyCartButton FAB with badge + Sonner toast feedback inside `app/product/[id]/add-to-cart-button.tsx` while preserving signature).
 
-**Last action:** Completed Plan 01-02 Catalog — Hero + responsive 1/2/3/4 ProductGrid + ProductCard wired, lib/format.ts contracted, shadcn Badge extended with sealed/opened/decant tone variants. `npm run build` exits 0 and out/index.html contains wordmark, tagline, Tom Ford Tobacco Vanille, 180€, and Σφραγισμένο badge.
+**Last action:** Completed Plan 01-03 Product Detail + 404 Polish — built `<BackLink />`, `<VariantRow />`, `<ProductDetail />` Server Components; rewired `app/product/[id]/page.tsx` to render `<ProductDetail>`; polished `app/not-found.tsx` per UI-SPEC §10. `npm run build` exits 0 and produces `out/product/tom-ford-tobacco-vanille.html` with full UI-SPEC §5 surface (hero image, brand/name/line, notes, description, variant row with badge + 50ml + 180€ + Προσθήκη button) + `out/404.html` with polished CTA. `app/product/[id]/add-to-cart-button.tsx` NOT modified (signature locked for Wave 3 parallel execution).
 
-**Last session:** 2026-05-11T11:17:07Z
-**Stopped at:** Completed 01-02-PLAN.md
-**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-03-PLAN.md` (next plan to execute)
+**Last session:** 2026-05-11T11:23:16Z
+**Stopped at:** Completed 01-03-PLAN.md
+**Resume file:** `.planning/phases/01-vertical-mvp-browse-cart-copy-deploy/01-04-PLAN.md` (next plan to execute)
 
 **Files of record:**
 

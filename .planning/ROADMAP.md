@@ -39,7 +39,7 @@ Plans:
 - [x] 01-02-PLAN.md — Catalog: format helpers + VariantBadge + Hero + responsive ProductGrid (1/2/3/4 cols) + ProductCard with image/brand/name/price/badges
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 01-03-PLAN.md — Product Detail: BackLink + VariantRow + ProductDetail composition (image, title block, notes, description, variants) + polished 404 page per UI-SPEC §10
+- [x] 01-03-PLAN.md — Product Detail: BackLink + VariantRow + ProductDetail composition (image, title block, notes, description, variants) + polished 404 page per UI-SPEC §10 *(completed 2026-05-11)*
 - [ ] 01-04-PLAN.md — Cart Store consumer wiring: useCartUiStore (drawer open state) + CartHydration + StickyCartButton (FAB with badge) + Add-to-cart Sonner toast feedback
 
 **Wave 4** *(blocked on Wave 3 completion)*
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 2/7 | In progress | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 3/7 | In progress | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |
@@ -114,4 +114,4 @@ Plans:
 Coverage: 65/65 v1 requirements mapped, 0 orphans, 0 duplicates.
 
 ---
-*Last updated: 2026-05-11 after Plan 01-01 Walking Skeleton completed (1/7 plans in Phase 1).*
+*Last updated: 2026-05-11 after Plan 01-03 Product Detail + 404 Polish completed (3/7 plans in Phase 1).*

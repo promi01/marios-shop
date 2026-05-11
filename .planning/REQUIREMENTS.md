@@ -35,14 +35,14 @@
 
 ### Product Detail
 
-- [ ] **PROD-01**: Σελίδα `/product/[id]` (statically generated για κάθε product στο inventory)
-- [ ] **PROD-02**: Μεγάλη φωτογραφία προϊόντος με image fallback support
-- [ ] **PROD-03**: Brand, name, line, notes, description_gr εμφανίζονται καθαρά
-- [ ] **PROD-04**: Λίστα variants, καθένα με size_ml, price, type badge, stock indicator, "Προσθήκη" κουμπί
+- [x] **PROD-01**: Σελίδα `/product/[id]` (statically generated για κάθε product στο inventory) *(Plan 01-03)*
+- [x] **PROD-02**: Μεγάλη φωτογραφία προϊόντος με image fallback support *(Plan 01-03)*
+- [x] **PROD-03**: Brand, name, line, notes, description_gr εμφανίζονται καθαρά *(Plan 01-03)*
+- [x] **PROD-04**: Λίστα variants, καθένα με size_ml, price, type badge, stock indicator, "Προσθήκη" κουμπί *(Plan 01-03)*
 - [ ] **PROD-05**: Variant με `stock===0` εμφανίζεται greyed out με "Εξαντλήθηκε" αντί κουμπιού
 - [ ] **PROD-06**: Stock indicator: αν `stock <= 2` δείχνει "Τελευταία τεμάχια"
 - [ ] **PROD-07**: Για `opened` variants εμφανίζεται το `fill_pct` (π.χ. "Γέμιση: 85%")
-- [ ] **PROD-08**: Back link/button στο catalog
+- [x] **PROD-08**: Back link/button στο catalog *(Plan 01-03)*
 - [ ] **PROD-09**: 404 page για άγνωστα product ids
 
 ### Cart
@@ -143,14 +143,14 @@
 | CAT-07 | Phase 2 | Pending |
 | CAT-08 | Phase 2 | Pending |
 | CAT-09 | Phase 1 | Pending |
-| PROD-01 | Phase 1 | Pending |
-| PROD-02 | Phase 1 | Pending |
-| PROD-03 | Phase 1 | Pending |
-| PROD-04 | Phase 1 | Pending |
+| PROD-01 | Phase 1 | Complete (Plan 01-03) |
+| PROD-02 | Phase 1 | Complete (Plan 01-03) |
+| PROD-03 | Phase 1 | Complete (Plan 01-03) |
+| PROD-04 | Phase 1 | Complete (Plan 01-03) |
 | PROD-05 | Phase 2 | Pending |
 | PROD-06 | Phase 2 | Pending |
 | PROD-07 | Phase 2 | Pending |
-| PROD-08 | Phase 1 | Pending |
+| PROD-08 | Phase 1 | Complete (Plan 01-03) |
 | PROD-09 | Phase 2 | Pending |
 | CART-01 | Phase 1 | Pending |
 | CART-02 | Phase 1 | Pending |
@@ -203,4 +203,4 @@
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-11 after Plan 01-01 completion: FOUND-01..04, INV-01..02, DEP-02 marked complete (7/65 v1 requirements).*
+*Last updated: 2026-05-11 after Plan 01-03 completion: PROD-01..04 + PROD-08 marked complete (12/65 v1 requirements total: FOUND-01..04, INV-01..02, DEP-02, PROD-01..04, PROD-08, UI-06, UI-07).*
