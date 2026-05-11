@@ -1,13 +1,13 @@
 'use client';
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/lib/cart-store';
 import { useCartUiStore } from '@/lib/cart-ui-store';
 import { getProductById, getVariant } from '@/lib/inventory';
 import { formatPrice, formatItemCount } from '@/lib/format';
 import { CartDrawerEmpty } from '@/components/cart-drawer-empty';
 import { CartDrawerItem } from '@/components/cart-drawer-item';
+import { CopyToMessengerButton } from '@/components/copy-to-messenger-button';
 import type { CartItem, Product, Variant } from '@/lib/types';
 
 type ResolvedLine = { item: CartItem; product: Product; variant: Variant };
@@ -28,9 +28,8 @@ type ResolvedLine = { item: CartItem; product: Product; variant: Variant };
  *   - Body: empty state OR <ul> of <CartDrawerItem>. While !isHydrated the
  *     drawer treats the cart as empty (D-07 / CART-11) to avoid flicker.
  *   - Footer: "Σύνολο" label + {N} τεμάχια via formatItemCount + total €
- *     via formatPrice on the left/right (UI-SPEC §8c). Below it a Copy CTA
- *     placeholder slot marked data-slot="copy-cta-placeholder" — Plan 06
- *     will replace its disabled/onClick to wire the clipboard write.
+ *     via formatPrice on the left/right (UI-SPEC §8c). Below it the
+ *     <CopyToMessengerButton /> (Plan 06) — wires clipboard + Sonner toasts.
  *
  * Stale items: per CONTEXT D-08 the Plan 01 store's onRehydrateStorage
  * already auto-removes items whose variant no longer exists or has stock=0.
@@ -103,14 +102,7 @@ export function CartDrawer() {
               {formatPrice(totalPrice)}
             </p>
           </div>
-          <Button
-            className="w-full"
-            disabled
-            aria-disabled="true"
-            data-slot="copy-cta-placeholder"
-          >
-            📋 Αντιγραφή για Messenger
-          </Button>
+          <CopyToMessengerButton />
         </div>
       </SheetContent>
     </Sheet>
