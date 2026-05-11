@@ -1,0 +1,15 @@
+[
+  {
+    "id": "tom-ford-tobacco-vanille",
+    "brand": "Tom Ford",
+    "name": "Tobacco Vanille",
+    "line": "Private Blend",
+    "image": null,
+    "image_fallback_url": "https://www.tomford.com/dw/image/v2/AAWB_PRD/on/demandware.static/-/Sites-master-tomford/default/dw0e2e8c1c/images/T0R-01_main.jpg",
+    "notes": "tobacco, vanilla, spice",
+    "description_gr": "Ζεστό αρωματικό προφίλ καπνού και βανίλιας — εμβληματικό άρωμα της Private Blend συλλογής.",
+    "variants": [
+      { "id": "tvf-50-sealed", "type": "sealed", "size_ml": 50, "price": 180, "stock": 3 }
+    ]
+  }
+]
