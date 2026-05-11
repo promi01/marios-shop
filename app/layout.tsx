@@ -3,6 +3,7 @@ import { Geist } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { CartHydration } from '@/components/cart-hydration';
 import { StickyCartButton } from '@/components/sticky-cart-button';
+import { CartDrawer } from '@/components/cart-drawer';
 import './globals.css';
 
 // NOTE: Google Fonts' Geist does not ship a 'greek' subset (only `cyrillic`,
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartHydration />
         {children}
         <StickyCartButton />
+        <CartDrawer />
         <Toaster />
       </body>
     </html>
