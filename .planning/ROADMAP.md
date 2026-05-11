@@ -30,7 +30,26 @@ A Facebook visitor (mostly mobile) can in <30s find perfumes, build an order lis
   3. Visitor can open the cart drawer (sticky button with item-count badge), see all added items with brand/name/variant/price/quantity/subtotal and a running total, and remove an item.
   4. Cart contents survive a full page refresh (persisted in `localStorage` under `marios-shop-cart`) without a hydration mismatch.
   5. Visitor can tap "📋 Αντιγραφή για Messenger" and the formatted order text (header + numbered items + totals footer) is on the clipboard, ready to paste into Messenger.
-**Plans:** TBD
+**Plans:** 7 plans
+Plans:
+**Wave 1**
+- [ ] 01-01-PLAN.md — Walking Skeleton: Next.js 15 + TS + Tailwind v4 + shadcn (button/card/sheet/badge/sonner) + Geist Greek font + types + minimal inventory.json (1 product) + bare homepage + product detail + cart store stub + static export build
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 01-02-PLAN.md — Catalog: format helpers + VariantBadge + Hero + responsive ProductGrid (1/2/3/4 cols) + ProductCard with image/brand/name/price/badges
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 01-03-PLAN.md — Product Detail: BackLink + VariantRow + ProductDetail composition (image, title block, notes, description, variants) + polished 404 page per UI-SPEC §10
+- [ ] 01-04-PLAN.md — Cart Store consumer wiring: useCartUiStore (drawer open state) + CartHydration + StickyCartButton (FAB with badge) + Add-to-cart Sonner toast feedback
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 01-05-PLAN.md — Cart Drawer: Sheet-based right-side drawer (header/list/footer/empty) + CartDrawerItem (brand/name/variant/qty/subtotal/remove) + Copy CTA placeholder slot
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 01-06-PLAN.md — Copy-to-Messenger: tested formatOrderText pure function + copyToClipboard (navigator.clipboard + textarea fallback) + CopyToMessengerButton + drawer wiring + Sonner success/error toasts
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 01-07-PLAN.md — Full seed inventory (5 products: Tom Ford, Loewe, Creed, MFK, Nishane covering all variant types + stock=0 + fill_pct) + Vercel production deploy (checkpoint for auth)
 **UI hint:** yes
 
 ### Phase 2: Inventory Robustness & Discovery
@@ -77,7 +96,7 @@ A Facebook visitor (mostly mobile) can in <30s find perfumes, build an order lis
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 0/0 | Not started | - |
+| 1. Vertical MVP — Browse, Cart, Copy, Deploy | 0/7 | Planned | - |
 | 2. Inventory Robustness & Discovery | 0/0 | Not started | - |
 | 3. UI Polish, Accessibility & Visual System | 0/0 | Not started | - |
 | 4. Analytics & Deploy Hardening | 0/0 | Not started | - |
@@ -95,4 +114,4 @@ A Facebook visitor (mostly mobile) can in <30s find perfumes, build an order lis
 Coverage: 65/65 v1 requirements mapped, 0 orphans, 0 duplicates.
 
 ---
-*Last updated: 2026-05-10 at roadmap creation*
+*Last updated: 2026-05-11 after Phase 1 plan-phase completed (7 plans, 5 waves).*
