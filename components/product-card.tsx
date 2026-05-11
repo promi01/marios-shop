@@ -34,7 +34,7 @@ function priceLabel(product: Product): string {
 
 export function ProductCard({ product }: { product: Product }) {
   const types = distinctInStockTypes(product);
-  const imageSrc = product.image_fallback_url;
+  const imageSrc = product.images[0] ?? '/products/placeholder.svg';
 
   return (
     <Link

@@ -46,14 +46,16 @@ export function CartDrawerItem({
   return (
     <li className="flex gap-3 items-start">
       <div className="relative h-14 w-14 rounded-md bg-stone-50 overflow-hidden flex-shrink-0">
-        <Image
-          src={product.image_fallback_url}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="56px"
-          unoptimized
-        />
+        {product.images[0] ? (
+          <Image
+            src={product.images[0]}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="56px"
+            unoptimized
+          />
+        ) : null}
       </div>
       <div className="flex-1 min-w-0 space-y-1">
         <p className="text-sm font-semibold text-neutral-950 truncate">{product.brand}</p>

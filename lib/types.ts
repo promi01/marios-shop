@@ -14,8 +14,7 @@ export interface Product {
   brand: string;
   name: string;
   line?: string;
-  image?: string | null;
-  image_fallback_url: string;
+  images: string[];
   notes?: string;
   description_gr?: string;
   variants: Variant[];

@@ -38,3 +38,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# photo staging (HEIC source + intermediate JPEGs — actual product photos live in public/products/)
+/photo-staging/
+/Για MARIOS shop/

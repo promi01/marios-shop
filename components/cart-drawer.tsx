@@ -64,7 +64,7 @@ export function CartDrawer() {
     <Sheet open={isDrawerOpen} onOpenChange={setDrawerOpen}>
       <SheetContent
         side="right"
-        className="w-[85vw] sm:w-[420px] flex flex-col p-0 gap-0"
+        className="w-[85vw] sm:w-[420px] flex flex-col p-0 gap-0 bg-white"
       >
         <SheetHeader className="px-5 py-4 border-b border-neutral-200">
           <SheetTitle

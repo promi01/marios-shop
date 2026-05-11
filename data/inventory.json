@@ -1,72 +1,265 @@
 [
   {
+    "id": "kilian-musk-oud",
+    "brand": "Kilian Paris",
+    "name": "Musk Oud",
+    "line": "Eau de Parfum",
+    "images": [
+      "/products/kilian-musk-oud-1.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "dior-myrrhe-mystere",
+    "brand": "Dior",
+    "name": "Myrrhe Mystère",
+    "line": "La Collection Privée",
+    "images": [
+      "/products/dior-myrrhe-mystere-1.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
     "id": "tom-ford-tobacco-vanille",
     "brand": "Tom Ford",
     "name": "Tobacco Vanille",
     "line": "Private Blend",
-    "image": null,
-    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.1825.jpg",
-    "notes": "καπνός, βανίλια, καρυκεύματα, κακάο, στεγνά φρούτα",
-    "description_gr": "Ζεστό oriental προφίλ με καπνό και βανίλια — εμβληματικό άρωμα της Private Blend συλλογής.\nΜοιάζει με χειμωνιάτικη βραδιά κοντά στο τζάκι.",
+    "images": [
+      "/products/tom-ford-tobacco-vanille-1.jpg",
+      "/products/tom-ford-tobacco-vanille-2.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
     "variants": [
-      { "id": "tvf-50-sealed", "type": "sealed", "size_ml": 50, "price": 180, "stock": 3 },
-      { "id": "tvf-10-decant", "type": "decant", "size_ml": 10, "price": 38, "stock": 6 }
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
     ]
   },
   {
-    "id": "loewe-bittersweet-oud",
-    "brand": "Loewe",
-    "name": "Bittersweet Oud",
-    "line": null,
-    "image": null,
-    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.7129.jpg",
-    "notes": "ξύλα, oud, μπαχαρικά, κέδρος",
-    "description_gr": "Ξύλινο-oriental προφίλ με oud, μπαχαρικά και ζεστά ξύλα. Διακριτικό αλλά με χαρακτήρα.",
+    "id": "margiela-jazz-club",
+    "brand": "Maison Margiela",
+    "name": "Jazz Club",
+    "line": "Replica",
+    "images": [
+      "/products/margiela-jazz-club-1.jpg",
+      "/products/margiela-jazz-club-2.jpg",
+      "/products/margiela-jazz-club-3.jpg",
+      "/products/margiela-jazz-club-4.jpg",
+      "/products/margiela-jazz-club-5.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
     "variants": [
-      { "id": "bso-100-opened", "type": "opened", "size_ml": 100, "price": 95, "stock": 1, "fill_pct": 85 },
-      { "id": "bso-5-decant", "type": "decant", "size_ml": 5, "price": 18, "stock": 8 }
+      {
+        "id": "sealed-100",
+        "type": "sealed",
+        "size_ml": 100,
+        "price": 0,
+        "stock": 1
+      }
     ]
   },
   {
-    "id": "creed-aventus",
-    "brand": "Creed",
-    "name": "Aventus",
-    "line": null,
-    "image": null,
-    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.9828.jpg",
-    "notes": "ανανάς, κάσσι, σημύδα, μοσχοκάρυδο, βανίλια",
-    "description_gr": "Φρουτώδες-καπνιστό άρωμα-σημαία. Επιβλητικό αλλά πολυφορεμένο.",
+    "id": "tom-ford-tuscan-leather",
+    "brand": "Tom Ford",
+    "name": "Tuscan Leather",
+    "line": "Private Blend",
+    "images": [
+      "/products/tom-ford-tuscan-leather-1.jpg",
+      "/products/tom-ford-tuscan-leather-2.jpg",
+      "/products/tom-ford-tuscan-leather-3.jpg",
+      "/products/tom-ford-tuscan-leather-4.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
     "variants": [
-      { "id": "av-100-sealed", "type": "sealed", "size_ml": 100, "price": 320, "stock": 0 },
-      { "id": "av-10-decant", "type": "decant", "size_ml": 10, "price": 55, "stock": 4 }
+      {
+        "id": "sealed-100",
+        "type": "sealed",
+        "size_ml": 100,
+        "price": 0,
+        "stock": 1
+      }
     ]
   },
   {
-    "id": "mfk-baccarat-rouge-540",
-    "brand": "Maison Francis Kurkdjian",
-    "name": "Baccarat Rouge 540",
-    "line": null,
-    "image": null,
-    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.33519.jpg",
-    "notes": "σαφράν, jasmine, ambergris, cedar",
-    "description_gr": "Διάφανο amber-φλοράλ προφίλ με γλυκό σαφράν.\nΑναγνωρίσιμο sillage, sweet and warm.",
+    "id": "tom-ford-soleil-blanc",
+    "brand": "Tom Ford",
+    "name": "Soleil Blanc",
+    "line": "Private Blend",
+    "images": [
+      "/products/tom-ford-soleil-blanc-1.jpg",
+      "/products/tom-ford-soleil-blanc-2.jpg",
+      "/products/tom-ford-soleil-blanc-3.jpg",
+      "/products/tom-ford-soleil-blanc-4.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
     "variants": [
-      { "id": "br540-70-sealed", "type": "sealed", "size_ml": 70, "price": 280, "stock": 2 },
-      { "id": "br540-5-decant", "type": "decant", "size_ml": 5, "price": 32, "stock": 10 }
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
     ]
   },
   {
-    "id": "nishane-hacivat",
-    "brand": "Nishane",
-    "name": "Hacivat",
-    "line": "Extrait de Parfum",
-    "image": null,
-    "image_fallback_url": "https://fimgs.net/mdimg/perfume/375x500.42440.jpg",
-    "notes": "ανανάς, βάλσαμο περού, πατσουλί, σανταλόξυλο",
-    "description_gr": "Φρουτώδες-ξύλινο niche, εναλλακτική του Aventus με δικό του χαρακτήρα.",
+    "id": "tom-ford-bois-marocain",
+    "brand": "Tom Ford",
+    "name": "Bois Marocain",
+    "line": "Private Blend",
+    "images": [
+      "/products/tom-ford-bois-marocain-1.jpg",
+      "/products/tom-ford-bois-marocain-2.jpg",
+      "/products/tom-ford-bois-marocain-3.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
     "variants": [
-      { "id": "hac-50-sealed", "type": "sealed", "size_ml": 50, "price": 145, "stock": 4 },
-      { "id": "hac-10-decant", "type": "decant", "size_ml": 10, "price": 32, "stock": 7 }
+      {
+        "id": "sealed-30",
+        "type": "sealed",
+        "size_ml": 30,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "tom-ford-neroli-portofino",
+    "brand": "Tom Ford",
+    "name": "Neroli Portofino",
+    "line": "Private Blend · Parfum",
+    "images": [
+      "/products/tom-ford-neroli-portofino-1.jpg",
+      "/products/tom-ford-neroli-portofino-2.jpg",
+      "/products/tom-ford-neroli-portofino-3.jpg",
+      "/products/tom-ford-neroli-portofino-4.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "tom-ford-azure-lime",
+    "brand": "Tom Ford",
+    "name": "Azure Lime",
+    "line": "Private Blend",
+    "images": [
+      "/products/tom-ford-azure-lime-1.jpg",
+      "/products/tom-ford-azure-lime-2.jpg",
+      "/products/tom-ford-azure-lime-3.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "tom-ford-white-suede",
+    "brand": "Tom Ford",
+    "name": "White Suede",
+    "line": "Private Blend",
+    "images": [
+      "/products/tom-ford-white-suede-1.jpg",
+      "/products/tom-ford-white-suede-2.jpg",
+      "/products/tom-ford-white-suede-3.jpg",
+      "/products/tom-ford-white-suede-4.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-50",
+        "type": "sealed",
+        "size_ml": 50,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "montale-infinity",
+    "brand": "Montale Paris",
+    "name": "Infinity",
+    "line": "Eau de Parfum",
+    "images": [
+      "/products/montale-infinity-1.jpg",
+      "/products/montale-infinity-2.jpg",
+      "/products/montale-infinity-3.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-100",
+        "type": "sealed",
+        "size_ml": 100,
+        "price": 0,
+        "stock": 1
+      }
+    ]
+  },
+  {
+    "id": "montale-dallachai",
+    "brand": "Montale Paris",
+    "name": "Dallachai",
+    "line": "Eau de Parfum",
+    "images": [
+      "/products/montale-dallachai-1.jpg"
+    ],
+    "notes": "",
+    "description_gr": "",
+    "variants": [
+      {
+        "id": "sealed-100",
+        "type": "sealed",
+        "size_ml": 100,
+        "price": 0,
+        "stock": 1
+      }
     ]
   }
 ]

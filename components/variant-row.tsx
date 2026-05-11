@@ -12,14 +12,19 @@ export function VariantRow({
   variant: Variant;
 }) {
   const outOfStock = variant.stock <= 0;
+  const showFillPct = variant.type === 'opened' && typeof variant.fill_pct === 'number';
+
   return (
-    <li className="flex items-center justify-between gap-3 border-t border-neutral-200 py-3">
-      <div className="flex flex-col gap-1 min-w-0">
-        <div className="flex items-center gap-2">
+    <li className="flex items-center justify-between gap-3 px-4 py-3">
+      <div className="flex flex-col gap-1.5 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
           <VariantBadge type={variant.type} />
-          <span className="text-sm text-neutral-950">{variant.size_ml}ml</span>
+          <span className="text-sm text-neutral-700 font-medium">{variant.size_ml}ml</span>
+          {showFillPct && (
+            <span className="text-xs text-neutral-500">· Γέμιση: {variant.fill_pct}%</span>
+          )}
         </div>
-        <span className="text-base font-semibold text-neutral-950">
+        <span className="text-lg font-semibold text-neutral-950 leading-none">
           {formatPrice(variant.price)}
         </span>
       </div>
@@ -28,7 +33,8 @@ export function VariantRow({
           <Button
             disabled
             aria-disabled="true"
-            className="disabled:bg-neutral-200 disabled:text-neutral-400 disabled:cursor-not-allowed"
+            variant="outline"
+            className="text-neutral-400 cursor-not-allowed"
           >
             Εξαντλήθηκε
           </Button>
