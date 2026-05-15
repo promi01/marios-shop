@@ -2,10 +2,12 @@ import type { Product } from '@/lib/types';
 import { BackLink } from '@/components/back-link';
 import { VariantRow } from '@/components/variant-row';
 import { ProductGallery } from '@/components/product-gallery';
+import { ProductViewTracker } from '@/components/product-view-tracker';
 
 export function ProductDetail({ product }: { product: Product }) {
   return (
     <main className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10 pb-32">
+      <ProductViewTracker productId={product.id} />
       <BackLink />
 
       <div className="mt-4">

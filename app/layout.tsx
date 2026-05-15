@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from '@/components/ui/sonner';
 import { CartHydration } from '@/components/cart-hydration';
 import { StickyCartButton } from '@/components/sticky-cart-button';
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StickyCartButton />
         <CartDrawer />
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Minus, Plus } from 'lucide-react';
 import type { CartItem, Product, Variant } from '@/lib/types';
 import { formatPrice } from '@/lib/format';
 import { VariantBadge } from '@/components/variant-badge';
@@ -10,41 +10,35 @@ import { useCartStore } from '@/lib/cart-store';
 /**
  * Single line item inside the cart drawer's scrollable list.
  *
- * - Receives `product` and `variant` as PROPS — resolved fresh from
- *   inventory.json by the parent <CartDrawer /> per CONTEXT D-06 (only ids+qty
- *   are persisted; display fields are never persisted to avoid stale prices
- *   after a redeploy).
- * - Calls `useCartStore.removeItem(productId, variantId)` from the remove
- *   button (CART-08).
- * - No quantity stepper in Phase 1 (D-11 / UI-SPEC §8b-i) — quantity is
- *   read-only as "{N} × {unit_price}€"; CART-07's stepper is Phase 2.
+ * Phase 2 (CART-07 + CART-12):
+ *   - +/- quantity stepper replaces the static "{N} ×" label
+ *   - When `unavailable` is true (variant missing or stock=0), the row is
+ *     greyed out, has a "Μη διαθέσιμο" badge, and the stepper is hidden;
+ *     only the remove button works
  *
- * Anatomy locked by UI-SPEC §8b-i:
- *   - Wrapper: <li> (drawer list is a <ul>, per §Accessibility Minimums).
- *   - Layout: flex gap-3 items-start with three columns:
- *       1) thumbnail 56×56 (h-14 w-14 rounded-md bg-stone-50)
- *       2) text block (brand / name / variant row with badge + size + qty×price)
- *       3) right column with subtotal + remove button (44×44 tap area)
- *   - Remove button: 44×44 hit area (h-11 w-11) with negative margin (-m-3)
- *     so the visible icon sits flush in the column while the tap target
- *     extends beyond. lucide Trash2 size=16. Resting color text-neutral-400,
- *     hover text-red-700 per UI-SPEC §Interaction States Matrix.
- *   - aria-label: "Αφαίρεση {brand} {name}" per §Copywriting Contract.
+ * Stock-clamp toast (CART-04) is fired from `useCartStore.setQuantity`.
  */
 export function CartDrawerItem({
   item,
   product,
   variant,
+  unavailable,
 }: {
   item: CartItem;
   product: Product;
-  variant: Variant;
+  variant: Variant | null;
+  unavailable: boolean;
 }) {
   const removeItem = useCartStore((s) => s.removeItem);
-  const subtotal = variant.price * item.quantity;
+  const setQuantity = useCartStore((s) => s.setQuantity);
+
+  const unitPrice = variant?.price ?? 0;
+  const subtotal = unitPrice * item.quantity;
+  const atMax = variant ? item.quantity >= variant.stock : true;
+  const atMin = item.quantity <= 1;
 
   return (
-    <li className="flex gap-3 items-start">
+    <li className={`flex gap-3 items-start ${unavailable ? 'opacity-60' : ''}`}>
       <div className="relative h-14 w-14 rounded-md bg-stone-50 overflow-hidden flex-shrink-0">
         {product.images[0] ? (
           <Image
@@ -60,19 +54,58 @@ export function CartDrawerItem({
       <div className="flex-1 min-w-0 space-y-1">
         <p className="text-sm font-semibold text-neutral-950 truncate">{product.brand}</p>
         <p className="text-sm text-neutral-600 truncate">{product.name}</p>
-        <div className="flex items-center gap-2 text-xs text-neutral-600 mt-1">
-          <VariantBadge type={variant.type} />
-          <span>{variant.size_ml}ml</span>
-          <span aria-hidden>·</span>
-          <span>
-            {item.quantity} × {formatPrice(variant.price)}
-          </span>
+        <div className="flex items-center gap-2 text-xs text-neutral-600 mt-1 flex-wrap">
+          {variant && <VariantBadge type={variant.type} />}
+          {variant && <span>{variant.size_ml}ml</span>}
+          {unavailable && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-red-50 text-red-700 text-xs font-medium">
+              Μη διαθέσιμο
+            </span>
+          )}
         </div>
+        {!unavailable && variant && (
+          <div className="flex items-center gap-3 mt-2">
+            <div className="inline-flex items-center rounded-md border border-neutral-300">
+              <button
+                type="button"
+                onClick={() =>
+                  setQuantity(item.product_id, item.variant_id, item.quantity - 1)
+                }
+                disabled={atMin}
+                aria-label="Μείωση ποσότητας"
+                className="h-8 w-8 inline-flex items-center justify-center text-neutral-700 hover:text-neutral-950 disabled:text-neutral-300 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-inset rounded-l-md"
+              >
+                <Minus size={14} aria-hidden />
+              </button>
+              <span
+                className="h-8 min-w-8 px-2 inline-flex items-center justify-center text-sm font-medium text-neutral-950 border-x border-neutral-300"
+                aria-live="polite"
+                aria-label={`Ποσότητα ${item.quantity}`}
+              >
+                {item.quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setQuantity(item.product_id, item.variant_id, item.quantity + 1)
+                }
+                disabled={atMax}
+                aria-label="Αύξηση ποσότητας"
+                className="h-8 w-8 inline-flex items-center justify-center text-neutral-700 hover:text-neutral-950 disabled:text-neutral-300 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-inset rounded-r-md"
+              >
+                <Plus size={14} aria-hidden />
+              </button>
+            </div>
+            <span className="text-xs text-neutral-600">× {formatPrice(unitPrice)}</span>
+          </div>
+        )}
       </div>
       <div className="flex flex-col items-end gap-2">
-        <span className="text-sm font-semibold text-neutral-950">
-          {formatPrice(subtotal)}
-        </span>
+        {!unavailable && (
+          <span className="text-sm font-semibold text-neutral-950">
+            {formatPrice(subtotal)}
+          </span>
+        )}
         <button
           type="button"
           onClick={() => removeItem(item.product_id, item.variant_id)}

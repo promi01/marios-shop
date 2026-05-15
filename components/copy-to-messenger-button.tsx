@@ -7,6 +7,7 @@ import { getProductById, getVariant } from '@/lib/inventory';
 import { formatTypeLabel } from '@/lib/format';
 import { formatOrderText, type ResolvedItem } from '@/lib/copy-format';
 import { copyToClipboard } from '@/lib/clipboard';
+import { trackCartCopied } from '@/lib/analytics';
 
 /**
  * Copy-to-Messenger CTA — the final step of the Phase 1 vertical.
@@ -34,18 +35,28 @@ export function CopyToMessengerButton() {
   const isHydrated = useCartStore((s) => s.isHydrated);
 
   // Disabled per COPY-08 (empty cart) and pre-hydration (avoid copying a
-  // not-yet-rehydrated cart).
-  const isEmpty = !isHydrated || items.length === 0;
+  // not-yet-rehydrated cart). Also disabled when every item is unavailable
+  // (CART-12) — there's nothing to copy.
+  const availableCount = items.filter((item) => {
+    const product = getProductById(item.product_id);
+    const variant = product ? getVariant(product, item.variant_id) : undefined;
+    return Boolean(variant && variant.stock > 0);
+  }).length;
+  const isEmpty = !isHydrated || availableCount === 0;
 
   const handleCopy = async () => {
     // Resolve display data fresh per click (CONTEXT D-06). Defensive null
     // filter — Plan 01's onRehydrateStorage already drops stale items, but
     // a race could in theory leave a dangling reference between renders.
+    // Phase 2 (CART-12): exclude unavailable items (missing variant OR
+    // stock <= 0) — they appear flagged in the drawer but must NOT pollute
+    // the Messenger copy.
     const resolved: ResolvedItem[] = items
       .map((item): ResolvedItem | null => {
         const product = getProductById(item.product_id);
         const variant = product ? getVariant(product, item.variant_id) : undefined;
         if (!product || !variant) return null;
+        if (variant.stock <= 0) return null;
         return {
           brand: product.brand,
           name: product.name,
@@ -67,6 +78,10 @@ export function CopyToMessengerButton() {
 
     if (ok) {
       toast.success('Αντιγράφηκε!');
+      // ANL-04: track successful copy with aggregate value/count only (no PII).
+      const totalValue = resolved.reduce((sum, r) => sum + r.price * r.quantity, 0);
+      const itemCount = resolved.reduce((sum, r) => sum + r.quantity, 0);
+      trackCartCopied(totalValue, itemCount);
     } else {
       toast.error('Δεν αντιγράφηκε — δοκιμάστε ξανά');
     }

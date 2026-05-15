@@ -12,6 +12,7 @@ export function VariantRow({
   variant: Variant;
 }) {
   const outOfStock = variant.stock <= 0;
+  const isLowStock = !outOfStock && variant.stock <= 2;
   const showFillPct = variant.type === 'opened' && typeof variant.fill_pct === 'number';
 
   return (
@@ -24,9 +25,16 @@ export function VariantRow({
             <span className="text-xs text-neutral-500">· Γέμιση: {variant.fill_pct}%</span>
           )}
         </div>
-        <span className="text-lg font-semibold text-neutral-950 leading-none">
-          {formatPrice(variant.price)}
-        </span>
+        <div className="flex items-baseline gap-2 flex-wrap">
+          <span className="text-lg font-semibold text-neutral-950 leading-none">
+            {formatPrice(variant.price)}
+          </span>
+          {isLowStock && (
+            <span className="text-xs font-medium text-amber-700">
+              Τελευταία τεμάχια
+            </span>
+          )}
+        </div>
       </div>
       <div>
         {outOfStock ? (

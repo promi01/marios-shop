@@ -1,14 +1,12 @@
 import { products } from '@/lib/inventory';
 import { Hero } from '@/components/hero';
-import { ProductGrid } from '@/components/product-grid';
+import { CatalogClient } from '@/components/catalog-client';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <main>
-        <ProductGrid products={products} />
-      </main>
+      <CatalogClient products={products} />
     </>
   );
 }
