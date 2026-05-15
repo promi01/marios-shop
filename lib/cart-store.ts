@@ -114,12 +114,18 @@ export const useCartStore = create<CartStore>()(
       // "Μη διαθέσιμο" so the buyer can review before sending the order.
       // We still clamp valid items down to current stock to avoid lying to
       // the buyer about quantities that no longer exist.
+      //
+      // Phase 5: rehydrate fires BEFORE `<InventoryRuntimeInit>` mounts (see
+      // `lib/inventory-runtime.ts` "Timing caveat"). When `getProductById`
+      // returns undefined because the snapshot is empty, we keep the items
+      // untouched — the drawer's CART-12 logic re-checks on every render and
+      // will correctly flag items the moment the snapshot is populated.
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         state.items = state.items.map((item) => {
           const product = getProductById(item.product_id);
           const variant = product ? getVariant(product, item.variant_id) : undefined;
-          if (!variant) return item; // unavailable — kept for flagging
+          if (!product || !variant) return item; // snapshot not ready OR unavailable — defer
           if (variant.stock <= 0) return item; // unavailable — kept for flagging
           return { ...item, quantity: Math.min(item.quantity, variant.stock) };
         });
