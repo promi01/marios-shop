@@ -30,7 +30,7 @@ const root = path.resolve(path.dirname(__filename), '..');
 const INVENTORY = path.join(root, 'data', 'inventory.json');
 const PUBLIC_DIR = path.join(root, 'public');
 
-const VALID_TYPES = new Set(['sealed', 'opened', 'decant']);
+const VALID_TYPES = new Set(['sealed', 'opened', 'decant', 'sample']);
 
 const errors = [];
 const warnings = [];

@@ -10,7 +10,9 @@
       "mcp__Claude_in_Chrome__find",
       "mcp__Claude_in_Chrome__form_input",
       "mcp__Claude_in_Chrome__javascript_tool",
-      "mcp__Claude_in_Chrome__navigate"
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__get_page_text"
     ]
   }
 }

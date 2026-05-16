@@ -25,6 +25,7 @@ const badgeVariants = cva(
         sealed: "border-transparent bg-emerald-50 text-emerald-700 font-normal",
         opened: "border-transparent bg-amber-50 text-amber-800 font-normal",
         decant: "border-transparent bg-blue-50 text-blue-700 font-normal",
+        sample: "border-transparent bg-violet-50 text-violet-700 font-normal",
       },
     },
     defaultVariants: {

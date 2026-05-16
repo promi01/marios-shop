@@ -85,6 +85,7 @@ export function VariantEditor({ initial = [] }: { initial?: Variant[] }) {
                 <option value="sealed">Σφραγισμένο</option>
                 <option value="opened">Ανοιγμένο</option>
                 <option value="decant">Decant</option>
+                <option value="sample">Sample</option>
               </select>
             </Field>
             <Field label="Μέγεθος (ml)">

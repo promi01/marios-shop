@@ -9,7 +9,7 @@ function distinctInStockTypes(product: Product): VariantType[] {
   for (const v of product.variants) {
     if (v.stock > 0) seen.add(v.type);
   }
-  const order: VariantType[] = ['sealed', 'opened', 'decant'];
+  const order: VariantType[] = ['sealed', 'opened', 'decant', 'sample'];
   return order.filter((t) => seen.has(t));
 }
 

@@ -1,4 +1,4 @@
-export type VariantType = 'sealed' | 'opened' | 'decant';
+export type VariantType = 'sealed' | 'opened' | 'decant' | 'sample';
 
 export interface Variant {
   id: string;

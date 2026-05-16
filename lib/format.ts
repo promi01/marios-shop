@@ -21,6 +21,8 @@ export function formatTypeLabel(type: VariantType): string {
       return 'Ανοιγμένο';
     case 'decant':
       return 'Decant';
+    case 'sample':
+      return 'Sample';
   }
 }
 

@@ -110,7 +110,7 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
   const variants: Variant[] = [];
   for (let i = 0; i < types.length; i++) {
     const type = String(types[i] ?? '');
-    if (type !== 'sealed' && type !== 'opened' && type !== 'decant') {
+    if (type !== 'sealed' && type !== 'opened' && type !== 'decant' && type !== 'sample') {
       return { product: {} as Product, error: `Άκυρος τύπος στο variant ${i + 1}: ${type}` };
     }
     const sizeMl = Number(sizes[i]);

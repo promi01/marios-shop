@@ -9,6 +9,7 @@ const TABS: Array<{ key: CategoryKey; label: string }> = [
   { key: 'sealed', label: 'Σφραγισμένα' },
   { key: 'opened', label: 'Ανοιγμένα' },
   { key: 'decant', label: 'Decants' },
+  { key: 'sample', label: 'Samples' },
 ];
 
 function countByCategory(products: Product[]): Record<CategoryKey, number> {
@@ -17,6 +18,7 @@ function countByCategory(products: Product[]): Record<CategoryKey, number> {
     sealed: 0,
     opened: 0,
     decant: 0,
+    sample: 0,
   };
   for (const p of products) {
     const types = new Set<VariantType>();
