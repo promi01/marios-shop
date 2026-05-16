@@ -9,15 +9,21 @@ import {
   uniqueBrands,
 } from '@/lib/catalog-utils';
 import type { CatalogFilters } from '@/lib/catalog-utils';
+import { CategoryTabs } from '@/components/category-tabs';
 import { CatalogFiltersBar } from '@/components/catalog-filters';
 import { ProductGrid } from '@/components/product-grid';
 
 /**
  * Client-side catalog wrapper — holds filter state and renders the grid.
  *
- * Uses `useDeferredValue` to debounce search input rendering (defers the
- * filter pass until React is idle, so typing stays responsive on slow
- * devices). Other filters apply immediately.
+ * Layout:
+ *   <CategoryTabs />       ← prominent category nav (Όλα / Sealed / Opened / Decants)
+ *   <CatalogFiltersBar />  ← search + brand chips + sort dropdown
+ *   <ProductGrid /> or EmptyState
+ *
+ * The CategoryTabs control filters.types (single-select). The filter bar
+ * controls filters.brands, filters.search, and filters.sort. Both stay in
+ * sync via the same `filters` state object.
  */
 export function CatalogClient({ products }: { products: Product[] }) {
   const [filters, setFilters] = useState<CatalogFilters>(DEFAULT_FILTERS);
@@ -32,6 +38,11 @@ export function CatalogClient({ products }: { products: Product[] }) {
 
   return (
     <>
+      <CategoryTabs
+        products={products}
+        selectedTypes={filters.types}
+        onChange={(types) => setFilters({ ...filters, types })}
+      />
       <CatalogFiltersBar
         brands={brands}
         filters={filters}

@@ -1,14 +1,7 @@
 'use client';
 
 import { Search, X } from 'lucide-react';
-import type { VariantType } from '@/lib/types';
 import type { CatalogFilters, SortKey } from '@/lib/catalog-utils';
-
-const TYPE_OPTIONS: Array<{ value: VariantType; label: string }> = [
-  { value: 'sealed', label: 'Σφραγισμένα' },
-  { value: 'opened', label: 'Ανοιγμένα' },
-  { value: 'decant', label: 'Decants' },
-];
 
 const SORT_OPTIONS: Array<{ value: SortKey; label: string }> = [
   { value: 'recent', label: 'Πιο πρόσφατα' },
@@ -28,13 +21,6 @@ export function CatalogFiltersBar({
   onChange: (next: CatalogFilters) => void;
   resultCount: number;
 }) {
-  const toggleType = (t: VariantType) => {
-    const next = new Set(filters.types);
-    if (next.has(t)) next.delete(t);
-    else next.add(t);
-    onChange({ ...filters, types: next });
-  };
-
   const toggleBrand = (b: string) => {
     const next = new Set(filters.brands);
     if (next.has(b)) next.delete(b);
@@ -100,29 +86,8 @@ export function CatalogFiltersBar({
           </select>
         </div>
 
-        {/* Row 2: Type chips */}
-        <div className="flex flex-wrap gap-2">
-          {TYPE_OPTIONS.map((t) => {
-            const active = filters.types.has(t.value);
-            return (
-              <button
-                key={t.value}
-                type="button"
-                onClick={() => toggleType(t.value)}
-                aria-pressed={active}
-                className={`px-3 h-8 rounded-full text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-1 ${
-                  active
-                    ? 'bg-neutral-950 text-white border border-neutral-950'
-                    : 'bg-white text-neutral-700 border border-neutral-300 hover:border-neutral-500'
-                }`}
-              >
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Row 3: Brand chips (horizontal scroll on mobile) */}
+        {/* Row 2: Brand chips (horizontal scroll on mobile). Type/category
+            filter has moved to the prominent CategoryTabs above the bar. */}
         {brands.length > 1 && (
           <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
             <div className="flex gap-2 pb-1 min-w-max md:flex-wrap md:min-w-0">
