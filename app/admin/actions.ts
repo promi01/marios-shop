@@ -186,6 +186,14 @@ export async function updateProductAction(
   const { product, error } = parseProductFromForm(formData);
   if (error) return { error };
   try {
+    // Preserve the active flag from the existing product — the edit form
+    // doesn't expose it (toggle lives in the admin list). Without this
+    // copy, editing an inactive product would silently re-activate it.
+    const { loadInventory } = await import('@/lib/inventory-store');
+    const existing = (await loadInventory()).find((p) => p.id === id);
+    if (existing && existing.active !== undefined) {
+      product.active = existing.active;
+    }
     await updateProduct(id, product);
   } catch (err) {
     return { error: err instanceof Error ? err.message : 'Σφάλμα αποθήκευσης' };
@@ -201,4 +209,23 @@ export async function deleteProductAction(formData: FormData) {
   await deleteProduct(id);
   revalidatePath('/admin');
   revalidatePath('/');
+}
+
+/**
+ * Toggle the `active` flag on a product. Used by the admin product list to
+ * hide/show a listing from the public catalog without losing the entry
+ * (photos, description, stock all preserved).
+ */
+export async function toggleProductActiveAction(formData: FormData) {
+  const id = String(formData.get('id') ?? '');
+  const nextActive = String(formData.get('active') ?? 'true') === 'true';
+  if (!id) return;
+  const { loadInventory: load } = await import('@/lib/inventory-store');
+  const products = await load();
+  const product = products.find((p) => p.id === id);
+  if (!product) return;
+  await updateProduct(id, { ...product, active: nextActive });
+  revalidatePath('/admin');
+  revalidatePath('/');
+  revalidatePath(`/product/${id}`);
 }

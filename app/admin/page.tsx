@@ -1,14 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Plus } from 'lucide-react';
+import { Plus, EyeOff } from 'lucide-react';
 import { fetchInventory } from '@/lib/inventory-server';
 import { DeleteProductButton } from '@/components/admin/delete-product-button';
+import { ToggleActiveButton } from '@/components/admin/toggle-active-button';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminHome() {
   const products = await fetchInventory();
   const totalProducts = products.length;
+  const inactiveCount = products.filter((p) => p.active === false).length;
   const totalStock = products.reduce(
     (sum, p) => sum + p.variants.reduce((s, v) => s + v.stock, 0),
     0,
@@ -23,6 +25,11 @@ export default async function AdminHome() {
           </h1>
           <p className="text-sm text-neutral-600 mt-1">
             {totalProducts} αρώματα · {totalStock} τεμάχια σε στοκ
+            {inactiveCount > 0 && (
+              <>
+                {' '}· <span className="text-amber-700 font-medium">{inactiveCount} ανενεργά</span>
+              </>
+            )}
           </p>
         </div>
       </header>
@@ -48,12 +55,15 @@ export default async function AdminHome() {
           {products.map((product) => {
             const totalProductStock = product.variants.reduce((s, v) => s + v.stock, 0);
             const cover = product.images[0];
+            const isInactive = product.active === false;
             return (
               <li
                 key={product.id}
-                className="bg-white ring-1 ring-neutral-200 rounded-lg p-3 md:p-4 flex items-center gap-3 md:gap-4"
+                className={`bg-white ring-1 rounded-lg p-3 md:p-4 flex items-center gap-3 md:gap-4 ${
+                  isInactive ? 'ring-amber-300 bg-amber-50/30' : 'ring-neutral-200'
+                }`}
               >
-                <div className="relative h-16 w-16 md:h-20 md:w-20 rounded-md bg-stone-100 overflow-hidden flex-shrink-0">
+                <div className={`relative h-16 w-16 md:h-20 md:w-20 rounded-md bg-stone-100 overflow-hidden flex-shrink-0 ${isInactive ? 'opacity-50' : ''}`}>
                   {cover && (
                     <Image
                       src={cover}
@@ -66,8 +76,16 @@ export default async function AdminHome() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs text-neutral-500 truncate">{product.brand}</p>
-                  <p className="text-sm md:text-base font-semibold text-neutral-950 truncate">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="text-xs text-neutral-500 truncate">{product.brand}</p>
+                    {isInactive && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-medium uppercase tracking-wide">
+                        <EyeOff size={10} aria-hidden />
+                        Ανενεργό
+                      </span>
+                    )}
+                  </div>
+                  <p className={`text-sm md:text-base font-semibold truncate ${isInactive ? 'text-neutral-500' : 'text-neutral-950'}`}>
                     {product.name}
                   </p>
                   <p className="text-xs text-neutral-600 mt-1">
@@ -81,6 +99,11 @@ export default async function AdminHome() {
                   >
                     Επεξεργασία
                   </Link>
+                  <ToggleActiveButton
+                    id={product.id}
+                    active={product.active !== false}
+                    label={`${product.brand} ${product.name}`}
+                  />
                   <DeleteProductButton id={product.id} label={`${product.brand} ${product.name}`} />
                 </div>
               </li>

@@ -18,6 +18,13 @@ export interface Product {
   notes?: string;
   description_gr?: string;
   variants: Variant[];
+  /**
+   * When `false`, the product is hidden from the public catalog and its
+   * /product/[id] page returns 404. Admin still sees it (marked "Ανενεργό").
+   * Missing/undefined treated as `true` for backward compat with existing
+   * inventory entries.
+   */
+  active?: boolean;
 }
 
 export interface CartItem {

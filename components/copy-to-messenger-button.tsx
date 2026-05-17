@@ -57,6 +57,7 @@ export function CopyToMessengerButton() {
         const variant = product ? getVariant(product, item.variant_id) : undefined;
         if (!product || !variant) return null;
         if (variant.stock <= 0) return null;
+        if (product.active === false) return null; // inactive → exclude from copy
         return {
           brand: product.brand,
           name: product.name,

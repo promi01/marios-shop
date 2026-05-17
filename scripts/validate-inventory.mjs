@@ -74,6 +74,11 @@ data.forEach((product, idx) => {
   if (typeof product.brand !== 'string' || !product.brand) err(`${where}.brand missing`);
   if (typeof product.name !== 'string' || !product.name) err(`${where}.name missing`);
 
+  // Optional: active flag (boolean, defaults to true)
+  if (product.active !== undefined && typeof product.active !== 'boolean') {
+    err(`${where}.active must be boolean when present`);
+  }
+
   if (product.id) {
     if (seenProductIds.has(product.id)) {
       err(`Duplicate product id: ${product.id}`);

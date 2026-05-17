@@ -35,7 +35,10 @@ export function CartDrawer() {
       const product = getProductById(item.product_id);
       if (!product) return null; // product gone — drop silently
       const variant = getVariant(product, item.variant_id) ?? null;
-      const unavailable = !variant || variant.stock <= 0;
+      // Inactive products (active === false) are treated the same as
+      // stock=0 variants — flagged "Μη διαθέσιμο" so the buyer notices
+      // before sending the order. Owner can re-activate at any time.
+      const unavailable = !variant || variant.stock <= 0 || product.active === false;
       return { item, product, variant, unavailable };
     })
     .filter((x): x is ResolvedLine => x !== null);
