@@ -1,10 +1,13 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState, useTransition } from 'react';
 import Link from 'next/link';
+import { Sparkles, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { ImageUploader } from '@/components/admin/image-uploader';
 import { VariantEditor } from '@/components/admin/variant-editor';
+import { autofillFragranceAction } from '@/app/admin/autofill-action';
 import type { Product } from '@/lib/types';
 import type { ProductFormState } from '@/app/admin/actions';
 
@@ -27,6 +30,51 @@ export function ProductForm({
     null,
   );
 
+  // Controlled text fields so the AI autofill can populate them.
+  const [brand, setBrand] = useState(initial?.brand ?? '');
+  const [name, setName] = useState(initial?.name ?? '');
+  const [line, setLine] = useState(initial?.line ?? '');
+  const [notes, setNotes] = useState(initial?.notes ?? '');
+  const [descriptionGr, setDescriptionGr] = useState(initial?.description_gr ?? '');
+  const [topNotes, setTopNotes] = useState(initial?.top_notes ?? '');
+  const [heartNotes, setHeartNotes] = useState(initial?.heart_notes ?? '');
+  const [baseNotes, setBaseNotes] = useState(initial?.base_notes ?? '');
+
+  const [autofillPending, startAutofill] = useTransition();
+
+  const handleAutofill = () => {
+    if (!brand.trim() || !name.trim()) {
+      toast.error('Συμπλήρωσε πρώτα Brand και Όνομα');
+      return;
+    }
+    const fd = new FormData();
+    fd.set('brand', brand);
+    fd.set('name', name);
+    startAutofill(async () => {
+      try {
+        const result = await autofillFragranceAction(fd);
+        if (result.error) {
+          toast.error(result.error);
+          return;
+        }
+        if (result.data) {
+          // Fill only — never overwrite something the owner already typed.
+          if (!line.trim() && result.data.line) setLine(result.data.line);
+          if (!notes.trim() && result.data.notes) setNotes(result.data.notes);
+          if (!descriptionGr.trim() && result.data.description_gr)
+            setDescriptionGr(result.data.description_gr);
+          if (!topNotes.trim() && result.data.top_notes) setTopNotes(result.data.top_notes);
+          if (!heartNotes.trim() && result.data.heart_notes)
+            setHeartNotes(result.data.heart_notes);
+          if (!baseNotes.trim() && result.data.base_notes) setBaseNotes(result.data.base_notes);
+          toast.success('Συμπληρώθηκε — έλεγξε τα στοιχεία πριν την αποθήκευση');
+        }
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Σφάλμα autofill');
+      }
+    });
+  };
+
   return (
     <form action={formAction} className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10 space-y-8">
       <header>
@@ -46,7 +94,8 @@ export function ProductForm({
             <input
               name="brand"
               type="text"
-              defaultValue={initial?.brand}
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
               required
               className="form-input"
               placeholder="π.χ. Tom Ford"
@@ -56,27 +105,50 @@ export function ProductForm({
             <input
               name="name"
               type="text"
-              defaultValue={initial?.name}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               className="form-input"
               placeholder="π.χ. Tobacco Vanille"
             />
           </Field>
         </Row>
+
+        <button
+          type="button"
+          onClick={handleAutofill}
+          disabled={autofillPending}
+          className="w-full inline-flex items-center justify-center gap-2 h-10 rounded-md border border-violet-300 bg-violet-50 text-sm font-medium text-violet-800 hover:border-violet-500 hover:bg-violet-100 disabled:opacity-60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 focus-visible:ring-offset-2"
+        >
+          {autofillPending ? (
+            <>
+              <Loader2 size={15} className="animate-spin" aria-hidden />
+              Αναζήτηση στοιχείων...
+            </>
+          ) : (
+            <>
+              <Sparkles size={15} aria-hidden />
+              Αυτόματη συμπλήρωση (νότες, πυραμίδα, περιγραφή)
+            </>
+          )}
+        </button>
+
         <Field label="Σειρά / collection (προαιρετικό)">
           <input
             name="line"
             type="text"
-            defaultValue={initial?.line}
+            value={line}
+            onChange={(e) => setLine(e.target.value)}
             className="form-input"
             placeholder="π.χ. Private Blend"
           />
         </Field>
-        <Field label="Νότες (προαιρετικό)">
+        <Field label="Νότες — σύνοψη (προαιρετικό)">
           <input
             name="notes"
             type="text"
-            defaultValue={initial?.notes}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
             className="form-input"
             placeholder="π.χ. καπνός, βανίλια, μπαχαρικά"
           />
@@ -85,15 +157,48 @@ export function ProductForm({
           <textarea
             name="description_gr"
             rows={3}
-            defaultValue={initial?.description_gr}
+            value={descriptionGr}
+            onChange={(e) => setDescriptionGr(e.target.value)}
             className="form-input min-h-[80px]"
             placeholder="Σύντομη περιγραφή στα Ελληνικά."
           />
         </Field>
-        {/* Slug: editable in advanced cases; auto-generated server-side when blank */}
         {mode === 'edit' && initial && (
           <input type="hidden" name="id" value={initial.id} />
         )}
+      </Section>
+
+      <Section title="Οσφρητική πυραμίδα (προαιρετικό)">
+        <Field label="Νότες κορυφής">
+          <input
+            name="top_notes"
+            type="text"
+            value={topNotes}
+            onChange={(e) => setTopNotes(e.target.value)}
+            className="form-input"
+            placeholder="π.χ. περγαμόντο, πιπέρι"
+          />
+        </Field>
+        <Field label="Νότες καρδιάς">
+          <input
+            name="heart_notes"
+            type="text"
+            value={heartNotes}
+            onChange={(e) => setHeartNotes(e.target.value)}
+            className="form-input"
+            placeholder="π.χ. τριαντάφυλλο, κανέλα"
+          />
+        </Field>
+        <Field label="Νότες βάσης">
+          <input
+            name="base_notes"
+            type="text"
+            value={baseNotes}
+            onChange={(e) => setBaseNotes(e.target.value)}
+            className="form-input"
+            placeholder="π.χ. oud, βανίλια, μόσχος"
+          />
+        </Field>
       </Section>
 
       <Section title="Φωτογραφίες">

@@ -81,6 +81,9 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
   const line = String(formData.get('line') ?? '').trim();
   const notes = String(formData.get('notes') ?? '').trim();
   const description_gr = String(formData.get('description_gr') ?? '').trim();
+  const top_notes = String(formData.get('top_notes') ?? '').trim();
+  const heart_notes = String(formData.get('heart_notes') ?? '').trim();
+  const base_notes = String(formData.get('base_notes') ?? '').trim();
   const idInput = String(formData.get('id') ?? '').trim();
   const imagesRaw = String(formData.get('images') ?? '');
 
@@ -159,6 +162,9 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
     ...(line ? { line } : {}),
     ...(notes ? { notes } : {}),
     ...(description_gr ? { description_gr } : {}),
+    ...(top_notes ? { top_notes } : {}),
+    ...(heart_notes ? { heart_notes } : {}),
+    ...(base_notes ? { base_notes } : {}),
   };
   return { product };
 }

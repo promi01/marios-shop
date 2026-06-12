@@ -40,6 +40,25 @@ export function ProductDetail({ product }: { product: Product }) {
         </section>
       )}
 
+      {(product.top_notes || product.heart_notes || product.base_notes) && (
+        <section className="mt-5 rounded-lg ring-1 ring-neutral-200 overflow-hidden">
+          <p className="text-xs uppercase tracking-wider text-neutral-500 font-medium px-4 pt-3 pb-2">
+            Οσφρητική πυραμίδα
+          </p>
+          <dl className="divide-y divide-neutral-100">
+            {product.top_notes && (
+              <PyramidRow label="Κορυφή" value={product.top_notes} />
+            )}
+            {product.heart_notes && (
+              <PyramidRow label="Καρδιά" value={product.heart_notes} />
+            )}
+            {product.base_notes && (
+              <PyramidRow label="Βάση" value={product.base_notes} />
+            )}
+          </dl>
+        </section>
+      )}
+
       {product.description_gr && (
         <section className="mt-5">
           <p className="text-sm md:text-base text-neutral-800 leading-relaxed whitespace-pre-line">
@@ -48,6 +67,7 @@ export function ProductDetail({ product }: { product: Product }) {
         </section>
       )}
 
+      {/* Variants list */}
       <section className="mt-8">
         <h2 className="text-xs uppercase tracking-wider text-neutral-500 font-medium mb-3">
           Διαθέσιμα
@@ -59,5 +79,16 @@ export function ProductDetail({ product }: { product: Product }) {
         </ul>
       </section>
     </main>
+  );
+}
+
+function PyramidRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex gap-3 px-4 py-2.5">
+      <dt className="w-16 flex-shrink-0 text-xs font-medium text-neutral-500 pt-0.5">
+        {label}
+      </dt>
+      <dd className="text-sm text-neutral-800 leading-relaxed">{value}</dd>
+    </div>
   );
 }

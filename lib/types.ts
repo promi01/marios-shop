@@ -17,6 +17,13 @@ export interface Product {
   images: string[];
   notes?: string;
   description_gr?: string;
+  /**
+   * Olfactory pyramid — comma-separated note lists per layer.
+   * Optional; filled manually or via the admin AI autofill.
+   */
+  top_notes?: string;
+  heart_notes?: string;
+  base_notes?: string;
   variants: Variant[];
   /**
    * When `false`, the product is hidden from the public catalog and its
