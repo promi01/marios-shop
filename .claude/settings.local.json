@@ -14,7 +14,12 @@
       "mcp__Claude_in_Chrome__computer",
       "mcp__Claude_in_Chrome__get_page_text",
       "Skill(claude-api)",
-      "Skill(claude-api:*)"
+      "Skill(claude-api:*)",
+      "WebSearch",
+      "WebFetch(domain:www.fragrantica.com)",
+      "WebFetch(domain:beta.fragrantica.com)",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget"
     ]
   }
 }
