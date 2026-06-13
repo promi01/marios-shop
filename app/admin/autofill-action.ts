@@ -1,6 +1,7 @@
 'use server';
 
 import Anthropic from '@anthropic-ai/sdk';
+import { ACCORD_LABELS } from '@/lib/accords';
 
 /**
  * AI autofill for fragrance metadata (admin product form).
@@ -27,6 +28,7 @@ export interface AutofillResult {
     heart_notes: string;
     base_notes: string;
     description_gr: string;
+    accords: Array<{ name: string; intensity: number }>;
   };
   error?: string;
 }
@@ -39,6 +41,7 @@ interface AutofillPayload {
   heart_notes: string;
   base_notes: string;
   description_gr: string;
+  accords: Array<{ name: string; intensity: number }>;
 }
 
 const SYSTEM_PROMPT =
@@ -61,6 +64,12 @@ const FIELD_DESCRIPTIONS = {
     'Base notes (νότες βάσης) in Greek, comma-separated, lowercase. Empty string if unknown.',
   description_gr:
     '1-2 sentence sales description in Greek. Style: knowledgeable fragrance enthusiast, warm but not flowery. No emoji.',
+  accords:
+    'Main accords (κύριες συγχορδίες) of the fragrance, like Fragrantica\'s colored bars, sorted strongest-first (top 6-9). ' +
+    'Each is {name, intensity} where intensity is 0-100 (the strongest accord should be ~90-100). ' +
+    'The name MUST be EXACTLY one of these Greek labels (do not invent others, do not translate): ' +
+    ACCORD_LABELS +
+    '. Empty array if unknown.',
 };
 
 function toResult(parsed: AutofillPayload): AutofillResult {
@@ -78,6 +87,11 @@ function toResult(parsed: AutofillPayload): AutofillResult {
       heart_notes: parsed.heart_notes ?? '',
       base_notes: parsed.base_notes ?? '',
       description_gr: parsed.description_gr ?? '',
+      accords: Array.isArray(parsed.accords)
+        ? parsed.accords
+            .filter((a) => a && typeof a.name === 'string' && typeof a.intensity === 'number')
+            .map((a) => ({ name: a.name, intensity: Math.max(0, Math.min(100, Math.round(a.intensity))) }))
+        : [],
     },
   };
 }
@@ -100,6 +114,18 @@ const GEMINI_SCHEMA = {
     heart_notes: { type: 'STRING', description: FIELD_DESCRIPTIONS.heart_notes },
     base_notes: { type: 'STRING', description: FIELD_DESCRIPTIONS.base_notes },
     description_gr: { type: 'STRING', description: FIELD_DESCRIPTIONS.description_gr },
+    accords: {
+      type: 'ARRAY',
+      description: FIELD_DESCRIPTIONS.accords,
+      items: {
+        type: 'OBJECT',
+        properties: {
+          name: { type: 'STRING', description: 'Greek accord label from the allowed list' },
+          intensity: { type: 'INTEGER', description: 'Intensity 0-100' },
+        },
+        required: ['name', 'intensity'],
+      },
+    },
   },
   required: [
     'known',
@@ -109,6 +135,7 @@ const GEMINI_SCHEMA = {
     'heart_notes',
     'base_notes',
     'description_gr',
+    'accords',
   ],
 };
 
@@ -195,6 +222,19 @@ const CLAUDE_SCHEMA = {
       type: 'string' as const,
       description: FIELD_DESCRIPTIONS.description_gr,
     },
+    accords: {
+      type: 'array' as const,
+      description: FIELD_DESCRIPTIONS.accords,
+      items: {
+        type: 'object' as const,
+        properties: {
+          name: { type: 'string' as const, description: 'Greek accord label from the allowed list' },
+          intensity: { type: 'integer' as const, description: 'Intensity 0-100' },
+        },
+        required: ['name', 'intensity'],
+        additionalProperties: false as const,
+      },
+    },
   },
   required: [
     'known',
@@ -204,6 +244,7 @@ const CLAUDE_SCHEMA = {
     'heart_notes',
     'base_notes',
     'description_gr',
+    'accords',
   ],
   additionalProperties: false as const,
 };

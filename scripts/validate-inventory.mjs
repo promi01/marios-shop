@@ -79,6 +79,22 @@ data.forEach((product, idx) => {
     err(`${where}.active must be boolean when present`);
   }
 
+  // Optional: accords (array of {name, intensity 0-100})
+  if (product.accords !== undefined) {
+    if (!Array.isArray(product.accords)) {
+      err(`${where}.accords must be an array when present`);
+    } else {
+      product.accords.forEach((a, aIdx) => {
+        if (!a || typeof a.name !== 'string' || !a.name) {
+          err(`${where}.accords[${aIdx}].name must be a non-empty string`);
+        }
+        if (typeof a.intensity !== 'number' || a.intensity < 0 || a.intensity > 100) {
+          err(`${where}.accords[${aIdx}].intensity must be a number 0-100`);
+        }
+      });
+    }
+  }
+
   if (product.id) {
     if (seenProductIds.has(product.id)) {
       err(`Duplicate product id: ${product.id}`);

@@ -84,6 +84,7 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
   const top_notes = String(formData.get('top_notes') ?? '').trim();
   const heart_notes = String(formData.get('heart_notes') ?? '').trim();
   const base_notes = String(formData.get('base_notes') ?? '').trim();
+  const accordsRaw = String(formData.get('accords') ?? '').trim();
   const idInput = String(formData.get('id') ?? '').trim();
   const imagesRaw = String(formData.get('images') ?? '');
 
@@ -153,6 +154,31 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
 
   const id = idInput || `${slugify(brand)}-${slugify(name)}`;
 
+  // Accords arrive as a JSON string from a hidden form field (populated by the
+  // AI autofill / editable in the form). Parse defensively.
+  let accords: Array<{ name: string; intensity: number }> | undefined;
+  if (accordsRaw) {
+    try {
+      const parsed = JSON.parse(accordsRaw) as unknown;
+      if (Array.isArray(parsed)) {
+        const cleaned = parsed
+          .filter(
+            (a): a is { name: string; intensity: number } =>
+              !!a &&
+              typeof (a as { name?: unknown }).name === 'string' &&
+              typeof (a as { intensity?: unknown }).intensity === 'number',
+          )
+          .map((a) => ({
+            name: a.name,
+            intensity: Math.max(0, Math.min(100, Math.round(a.intensity))),
+          }));
+        if (cleaned.length > 0) accords = cleaned;
+      }
+    } catch {
+      // Ignore malformed JSON — product saves without accords.
+    }
+  }
+
   const product: Product = {
     id,
     brand,
@@ -165,6 +191,7 @@ function parseProductFromForm(formData: FormData): { product: Product; error?: s
     ...(top_notes ? { top_notes } : {}),
     ...(heart_notes ? { heart_notes } : {}),
     ...(base_notes ? { base_notes } : {}),
+    ...(accords ? { accords } : {}),
   };
   return { product };
 }

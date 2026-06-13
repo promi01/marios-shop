@@ -3,6 +3,7 @@ import { BackLink } from '@/components/back-link';
 import { VariantRow } from '@/components/variant-row';
 import { ProductGallery } from '@/components/product-gallery';
 import { ProductViewTracker } from '@/components/product-view-tracker';
+import { MainAccords } from '@/components/main-accords';
 import { OlfactoryPyramid } from '@/components/olfactory-pyramid';
 
 export function ProductDetail({ product }: { product: Product }) {
@@ -40,6 +41,8 @@ export function ProductDetail({ product }: { product: Product }) {
           </p>
         </section>
       )}
+
+      <MainAccords product={product} />
 
       <OlfactoryPyramid product={product} />
 

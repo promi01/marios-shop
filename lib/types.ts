@@ -24,6 +24,11 @@ export interface Product {
   top_notes?: string;
   heart_notes?: string;
   base_notes?: string;
+  /**
+   * Main accords — fragrance families with 0-100 intensity, shown as colored
+   * bars (Fragrantica-style). Optional; filled by the admin AI autofill.
+   */
+  accords?: Array<{ name: string; intensity: number }>;
   variants: Variant[];
   /**
    * When `false`, the product is hidden from the public catalog and its

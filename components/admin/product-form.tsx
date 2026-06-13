@@ -39,6 +39,9 @@ export function ProductForm({
   const [topNotes, setTopNotes] = useState(initial?.top_notes ?? '');
   const [heartNotes, setHeartNotes] = useState(initial?.heart_notes ?? '');
   const [baseNotes, setBaseNotes] = useState(initial?.base_notes ?? '');
+  const [accords, setAccords] = useState<Array<{ name: string; intensity: number }>>(
+    initial?.accords ?? [],
+  );
 
   const [autofillPending, startAutofill] = useTransition();
 
@@ -67,6 +70,9 @@ export function ProductForm({
           if (!heartNotes.trim() && result.data.heart_notes)
             setHeartNotes(result.data.heart_notes);
           if (!baseNotes.trim() && result.data.base_notes) setBaseNotes(result.data.base_notes);
+          if (accords.length === 0 && result.data.accords && result.data.accords.length > 0) {
+            setAccords(result.data.accords);
+          }
           toast.success('Συμπληρώθηκε — έλεγξε τα στοιχεία πριν την αποθήκευση');
         }
       } catch (err) {
@@ -199,6 +205,46 @@ export function ProductForm({
             placeholder="π.χ. oud, βανίλια, μόσχος"
           />
         </Field>
+      </Section>
+
+      <Section title="Κύριες συγχορδίες (προαιρετικό)">
+        {/* Hidden field carries the JSON into the server action */}
+        <input type="hidden" name="accords" value={JSON.stringify(accords)} />
+        {accords.length === 0 ? (
+          <p className="text-xs text-neutral-500">
+            Συμπληρώνονται αυτόματα με την «Αυτόματη συμπλήρωση». Μπορείς μετά να πειράξεις τις εντάσεις.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {accords.map((a, idx) => (
+              <div key={`${a.name}-${idx}`} className="flex items-center gap-2">
+                <span className="flex-1 text-sm text-neutral-700">{a.name}</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={a.intensity}
+                  onChange={(e) => {
+                    const v = Math.max(0, Math.min(100, Number(e.target.value)));
+                    setAccords((prev) =>
+                      prev.map((x, i) => (i === idx ? { ...x, intensity: v } : x)),
+                    );
+                  }}
+                  className="form-input w-20"
+                  aria-label={`Ένταση ${a.name}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setAccords((prev) => prev.filter((_, i) => i !== idx))}
+                  aria-label={`Αφαίρεση ${a.name}`}
+                  className="h-9 w-9 inline-flex items-center justify-center text-neutral-400 hover:text-red-700 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </Section>
 
       <Section title="Φωτογραφίες">
